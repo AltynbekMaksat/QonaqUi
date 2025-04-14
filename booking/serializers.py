@@ -45,8 +45,7 @@ class UserSerializer(serializers.Serializer):
         instance.phone_number = validated_data.get('phone_number', instance.phone_number)
 
         if 'password' in validated_data:
-            instance.password = make_password(validated_data['password'])  # хешируем новый пароль
-
+            instance.password = make_password(validated_data['password'])  # хешируем нью пароль
         instance.save()
         return instance
 
