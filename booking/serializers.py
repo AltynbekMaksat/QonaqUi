@@ -26,28 +26,26 @@ class HotelSerializer(serializers.Serializer):
 class UserSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField()
     first_name = serializers.CharField(max_length=30)
     last_name = serializers.CharField(max_length=30)
     role = serializers.CharField(max_length=50)
     phone_number = serializers.CharField(max_length=20)
 
     def create(self, validated_data):
-        validated_data['password'] = make_password(validated_data['password'])  # хешируем пароль
         return User.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
         instance.email = validated_data.get('email', instance.email)
+        instance.password = validated_data.get('password', instance.password)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.role = validated_data.get('role', instance.role)
         instance.phone_number = validated_data.get('phone_number', instance.phone_number)
-
-        if 'password' in validated_data:
-            instance.password = make_password(validated_data['password'])  # хешируем нью пароль
         instance.save()
         return instance
+
 
 
 class RoomSerializer(serializers.ModelSerializer):
