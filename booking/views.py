@@ -60,7 +60,8 @@ class UserAPIView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'created': serializer.data})
+            return Response({'user': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, *args, **kwargs):
         pk = kwargs.get('pk', None)
@@ -68,7 +69,7 @@ class UserAPIView(APIView):
             return Response({'error': 'Method PUT not allowed'})
         try:
             instance = User.objects.get(pk=pk)
-        except User.DoesNotExist:
+        except :
             return Response({'error': 'User not found'})
         serializer = UserSerializer(data=request.data, instance=instance)
         if serializer.is_valid(raise_exception=True):
