@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -8,8 +9,15 @@ from .models import Hotel , User , Room
 from .serializers import *
 from rest_framework import status
 from rest_framework import generics
-
-
+from rest_framework.permissions import IsAuthenticated
+from .services import (
+    request_room_booking,
+    request_table_booking,
+    approve_room_reservation,
+    approve_table_reservation,
+    cancel_room_reservation,
+    cancel_table_reservation,
+)
 
 class HotelAPIView(APIView):
     def get(self, request):
@@ -178,3 +186,103 @@ class ReservationRestAPIUpdate(generics.RetrieveUpdateAPIView):
 class ReservationRestAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = ReservationRest.objects.all()
     serializer_class = ReservationRestSerializer
+
+# --- Room booking, approving, & cancelling view ---
+class BookRoomAPIView(APIView):
+    def post(self, request):
+        customer_id = request.data.get('customer_id')
+        room_number = request.data.get('room_number')
+        check_in = request.data.get('check_in')
+        check_out = request.data.get('check_out')
+        try:
+            customer = Customer.objects.get(id=customer_id)
+            room = Room.objects.get(room_number=room_number)
+            reservation = request_room_booking(customer, room, check_in, check_out)
+            return Response({'status': 'Reservation created', 'reservation_id': reservation.id})
+        except Customer.DoesNotExist:
+            return Response({'error': 'Customer not found'}, status=404)
+        except Room.DoesNotExist:
+            return Response({'error': 'Room not found'}, status=404)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=400)
+        
+class ApproveRoomReservationAPIView(APIView):
+    def post(self, request):
+        reservation_id = request.data.get('reservation_id')
+        manager_id = request.data.get('manager_id')
+        try:
+            manager = Manager.objects.get(id=manager_id)
+            approve_room_reservation(manager, reservation_id)
+            return Response({'status': 'Reservation approved'})
+        except Manager.DoesNotExist:
+            return Response({'error': 'Manager not found'}, status=404)
+        except ReservationHotel.DoesNotExist:
+            return Response({'error': 'Reservation not found'}, status=404)
+        except (ValidationError, PermissionError) as e:
+            return Response({'error': str(e)}, status=400)
+        
+class CancelRoomReservationAPIView(APIView):
+    def post(self, request):
+        reservation_id = request.data.get('reservation_id')
+        user_id = request.data.get('user_id')
+        try:
+            reservation = ReservationHotel.objects.get(id=reservation_id)
+            user = User.objects.get(id=user_id)
+            cancelled = cancel_room_reservation(reservation, user)
+            return Response({'status': 'Reservation cancelled'})
+        except ReservationHotel.DoesNotExist:
+            return Response({'error': 'Reservation not found'}, status=404)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
+        except (ValidationError, PermissionError) as e:
+            return Response({'error': str(e)}, status=400)
+        
+# --- Table booking, approving, & cancelling view ---
+class BookTableAPIView(APIView):
+    def post(self, request):
+        customer_id = request.data.get('customer_id')
+        number = request.data.get('number')
+        check_in = request.data.get('check_in')
+        check_out = request.data.get('check_out')
+        try:
+            customer = Customer.objects.get(id=customer_id)
+            table = Table.objects.get(number=number)
+            reservation = request_table_booking(customer, table, check_in, check_out)
+            return Response({'status': 'Reservation created', 'reservation_id': reservation.id})
+        except Customer.DoesNotExist:
+            return Response({'error': 'Customer not found'}, status=404)
+        except Room.DoesNotExist:
+            return Response({'error': 'Room not found'}, status=404)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=400)
+        
+class ApproveTableReservationAPIView(APIView):
+    def post(self, request):
+        reservation_id = request.data.get('reservation_id')
+        manager_id = request.data.get('manager_id')
+        try:
+            manager = Manager.objects.get(id=manager_id)
+            approve_table_reservation(manager, reservation_id)
+            return Response({'status': 'Reservation approved'})
+        except Manager.DoesNotExist:
+            return Response({'error': 'Manager not found'}, status=404)
+        except ReservationRest.DoesNotExist:
+            return Response({'error': 'Reservation not found'}, status=404)
+        except (ValidationError, PermissionError) as e:
+            return Response({'error': str(e)}, status=400)
+        
+class CancelTableReservationAPIView(APIView):
+    def post(self, request):
+        reservation_id = request.data.get('reservation_id')
+        user_id = request.data.get('user_id')
+        try:
+            reservation = ReservationRest.objects.get(id=reservation_id)
+            user = User.objects.get(id=user_id)
+            cancelled = cancel_room_reservation(reservation, user)
+            return Response({'status': 'Reservation cancelled'})
+        except ReservationRest.DoesNotExist:
+            return Response({'error': 'Reservation not found'}, status=404)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
+        except (ValidationError, PermissionError) as e:
+            return Response({'error': str(e)}, status=400)
