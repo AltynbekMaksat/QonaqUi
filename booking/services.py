@@ -1,4 +1,6 @@
-from django.core.exceptions import ValidationError, PermissionError
+from django.core.exceptions import ValidationError
+from builtins import PermissionError
+
 from .models import ReservationHotel, ReservationRest, RoomAvailability, TableAvailability
 
 # 1. СОЗДАНИЕ ЗАЯВОК НА БРОНЬ
