@@ -83,3 +83,19 @@ class ReservationRest(models.Model):
     status = models.CharField(max_length=50, default="Pending")
     def __str__(self):
         return f"Reservation for {self.customer} in {self.table}"
+    
+class RoomAvailability(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='availabilities')
+    date = models.DateField()
+    class Meta:
+        unique_together = ('room', 'date')
+    def __str__(self):
+        return f"{self.room} занята на {self.date}"
+
+class TableAvailability(models.Model):
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='availabilities')
+    date = models.DateField()
+    class Meta:
+        unique_together = ('table', 'date')
+    def __str__(self):
+        return f"{self.table} занята на {self.date}"
