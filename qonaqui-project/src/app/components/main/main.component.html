@@ -1,0 +1,33 @@
+<!-- <div class="container">
+  <h2>Пользователи (Общая информация)</h2>
+  <ul>
+    <li *ngFor="let user of users">
+      <strong>{{ user.username }}</strong> (ID: {{ user.id }}) —
+      {{ user.email }}
+
+      <div *ngIf="getDetailedUser(user.username) as detail" class="details">
+        <p>
+          <strong>Имя:</strong> {{ detail.first_name }} {{ detail.last_name }}
+        </p>
+        <p><strong>Роль:</strong> {{ detail.role }}</p>
+        <p><strong>Телефон:</strong> {{ detail.phone_number }}</p>
+        {{ detail.first_name }}
+      </div>
+
+      <div *ngIf="!getDetailedUser(user.username)">
+        <p><em>Доп. информация недоступна</em></p>
+      </div>
+    </li>
+  </ul>
+</div> -->
+<div *ngIf="userDetails; else noUser">
+  <h2>Добро пожаловать, {{ userDetails.first_name }}!</h2>
+  <p><strong>Фамилия:</strong> {{ userDetails.last_name }}</p>
+  <p><strong>Email:</strong> {{ userDetails.email }}</p>
+  <p><strong>Роль:</strong> {{ userDetails.role }}</p>
+  <p><strong>Телефон:</strong> {{ userDetails.phone_number }}</p>
+</div>
+
+<ng-template #noUser>
+  <p>Информация о пользователе не найдена.</p>
+</ng-template>

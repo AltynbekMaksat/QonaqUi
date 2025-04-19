@@ -1,0 +1,13 @@
+<div class="login">
+  <div class="wrapper">
+    <h1>LOGIN</h1>
+    <p>Please enter your email and password to login.</p>
+    <div class="inputWrapper">
+      <!-- <input type="text" [(ngModel)]="username" placeholder="USERNAME" /> -->
+      <input type="username" [(ngModel)]="username" placeholder="USERNAME" />
+      <input type="password" [(ngModel)]="password" placeholder="PASSWORD" />
+    </div>
+    <button (click)="login()">login</button>
+    <a routerLink="/auth/register">Go To Register page</a>
+  </div>
+</div>
