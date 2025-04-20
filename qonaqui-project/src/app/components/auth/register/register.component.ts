@@ -28,7 +28,7 @@ export class RegisterComponent {
       error: (err: any) => {
         console.error("Registration failed", err);
         alert(JSON.stringify(err.error));
-      }, // Обработка ошибки
+      },
     });
   }
 }
