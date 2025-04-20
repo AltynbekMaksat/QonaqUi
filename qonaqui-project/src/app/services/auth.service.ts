@@ -19,7 +19,7 @@ export class AuthService {
         tap((res: any) => {
           localStorage.setItem("token", res.auth_token);
           localStorage.setItem("username", username); // <--- сохраняем username
-          this.router.navigate(["/"]);
+          //this.router.navigate(["/"]);
         })
       );
   }
@@ -34,6 +34,19 @@ export class AuthService {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders().set("Authorization", `Token ${token}`);
     return this.http.get(`${this.apiUrl}/booking/user/`, { headers });
+  }
+
+  // Регистрация нового пользователя
+  register(username: string, password: string): Observable<any> {
+    const body = {
+      username,
+      password,
+      re_password: password, // если используется Djoser с подтверждением пароля
+    };
+
+    return this.http.post(`${this.apiUrl}/auth/users/`, body).pipe(
+      switchMap(() => this.login(username, password)) // После регистрации — логиним
+    );
   }
 
   // user: IUser | null = null;
