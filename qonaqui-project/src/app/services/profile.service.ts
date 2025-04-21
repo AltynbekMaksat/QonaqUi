@@ -26,14 +26,12 @@ export class ProfileService {
   }
 
   getHotelReservations(): Observable<IHotelReservation[]> {
-    return this.http.get<IHotelReservation[]>(
-      `${this.apiUrl}/reservation-hotels/`
-    );
+    return this.http.get<IHotelReservation[]>(`${this.apiUrl}/book-room/`);
   }
 
   getRestaurantReservations(): Observable<IRestaurantReservation[]> {
     return this.http.get<IRestaurantReservation[]>(
-      `${this.apiUrl}/reservation-restaurants/`
+      `${this.apiUrl}/book-table/`
     );
   }
 

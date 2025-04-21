@@ -1,0 +1,43 @@
+@import "../../../../mixin";
+
+$primary-color: #c49c74;
+$secondary-color: #1d1d1d;
+$white: #ffffff;
+
+.features {
+  background-color: $secondary-color;
+  color: $white;
+  padding: 60px 0;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+
+    @include break(768px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+}
+
+.feature {
+  &__title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+
+    @include break(768px) {
+      font-size: 20px;
+    }
+  }
+
+  &__text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}

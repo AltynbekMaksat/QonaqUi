@@ -1,0 +1,136 @@
+<section class="hero" [style.background-image]="'url(' + heroBackground + ')'">
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <h1 class="hero__title">Explore your place to stay</h1>
+
+    <!-- Search Form -->
+    <div class="search">
+      <div class="search__container">
+        <div class="search__field search__field--location">
+          <span class="search__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Where are you going?"
+            class="search__input"
+            [(ngModel)]="searchLocation"
+          />
+        </div>
+
+        <div class="search__field search__field--date">
+          <span class="search__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Check in"
+            class="search__input"
+            [(ngModel)]="checkInDate"
+          />
+        </div>
+
+        <div class="search__field search__field--date">
+          <span class="search__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Check out"
+            class="search__input"
+            [(ngModel)]="checkOutDate"
+          />
+        </div>
+
+        <div class="search__field search__field--guests">
+          <span class="search__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Guests"
+            class="search__input"
+            [(ngModel)]="guestsCount"
+          />
+        </div>
+
+        <button class="search__button" (click)="searchAccommodations()">
+          <span>Search</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero__description">
+      <p class="hero__text">
+        We provide a variety of the best lodging accommodations for those of you
+        who need it.
+      </p>
+      <p class="hero__subtext">
+        Don't worry about the price, we have the best deals in the world.
+      </p>
+    </div>
+  </div>
+
+  <!-- Hero Pagination -->
+  <!-- <div class="hero__pagination">
+    <span class="hero__pagination-dot hero__pagination-dot--active"></span>
+    <span class="hero__pagination-dot"></span>
+    <span class="hero__pagination-dot"></span>
+  </div> -->
+</section>

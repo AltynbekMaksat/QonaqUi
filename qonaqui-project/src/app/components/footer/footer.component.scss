@@ -1,0 +1,169 @@
+@import "../../../mixin";
+
+$primary-color: #c49c74;
+$secondary-color: #1d1d1d;
+$white: #ffffff;
+$transition: all 0.3s ease;
+
+.footer {
+  background-color: $secondary-color;
+  color: $white;
+  padding: 60px 0 30px;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+
+    @include break(768px) {
+      flex-direction: column;
+      gap: 30px;
+      align-items: flex-start;
+    }
+  }
+
+  &__logo-text {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__logo-dot {
+    color: $primary-color;
+  }
+
+  &__newsletter-text {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  &__newsletter-form {
+    display: flex;
+  }
+
+  &__newsletter-input {
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px 0 0 6px;
+    color: $white;
+    width: 200px;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+
+  &__newsletter-button {
+    background-color: $primary-color;
+    color: $white;
+    border: none;
+    padding: 0 15px;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background-color: darken($primary-color, 5%);
+    }
+  }
+
+  &__links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+
+    @include break(576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__column-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background-color: $primary-color;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+    transition: $transition;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    @include break(576px) {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  &__copyright {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  &__social {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    transition: $transition;
+
+    &:hover {
+      background-color: $primary-color;
+      transform: translateY(-3px);
+    }
+  }
+}

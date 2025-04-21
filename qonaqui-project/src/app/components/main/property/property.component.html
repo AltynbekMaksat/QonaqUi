@@ -1,0 +1,94 @@
+<section class="section section--property-types">
+  <div class="section__container">
+    <div class="property-types">
+      <div class="property-types__header">
+        <div>
+          <h2 class="section__title">Browse by property type</h2>
+          <p class="property-types__description">
+            You can easily browse and filter your search by property type. This
+            feature allows you to select hotels or alternative options, such as
+            hostels, vacation rentals, or bed and breakfasts, based on your
+            preferences and specific needs for your stay.
+          </p>
+        </div>
+        <div class="property-types__years">2018-2024</div>
+      </div>
+
+      <div class="property-types__tabs">
+        <button
+          *ngFor="let type of propertyTypes"
+          class="property-types__tab"
+          [class.property-types__tab--active]="selectedPropertyType === type"
+          (click)="selectPropertyType(type)"
+        >
+          {{ type }}
+        </button>
+      </div>
+
+      <div class="carousel property-types__carousel">
+        <button
+          class="carousel__arrow carousel__arrow--prev"
+          (click)="prevProperties()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="carousel__container">
+          <div
+            class="carousel__track"
+            [style.transform]="'translateX(' + propertiesTranslate + 'px)'"
+          >
+            <div class="card" *ngFor="let property of filteredProperties">
+              <div class="card__image-container">
+                <img
+                  [src]="property.imageUrl"
+                  [alt]="property.name"
+                  class="card__image"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="carousel__arrow carousel__arrow--next"
+          (click)="nextProperties()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <div class="property-types__pagination">
+        <span
+          class="property-types__pagination-dot property-types__pagination-dot--active"
+        ></span>
+        <span class="property-types__pagination-dot"></span>
+        <span class="property-types__pagination-dot"></span>
+      </div>
+    </div>
+  </div>
+</section>

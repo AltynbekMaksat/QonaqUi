@@ -8,11 +8,16 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { TokenInterceptor } from "./services/token.interceptor";
 import { ProfileComponent } from "./components/profile/profile.component";
-import { ReactiveFormsModule } from "@angular/forms";
-import { PersonalInfoComponent } from './components/profile/personal-info/personal-info.component';
-import { HotelReservationsComponent } from './components/profile/hotel-reservations/hotel-reservations.component';
-import { RestaurantReservationsComponent } from './components/profile/restaurant-reservations/restaurant-reservations.component';
-import { ChangePasswordModalComponent } from './components/profile/change-password-modal/change-password-modal.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { PersonalInfoComponent } from "./components/profile/personal-info/personal-info.component";
+import { HotelReservationsComponent } from "./components/profile/hotel-reservations/hotel-reservations.component";
+import { RestaurantReservationsComponent } from "./components/profile/restaurant-reservations/restaurant-reservations.component";
+import { ChangePasswordModalComponent } from "./components/profile/change-password-modal/change-password-modal.component";
+import { FooterComponent } from "./components/footer/footer.component";
+import { HeroComponent } from "./components/main/hero/hero.component";
+import { HotelsSectionComponent } from './components/main/hotels-section/hotels-section.component';
+import { FeaturesComponent } from './components/main/features/features.component';
+import { PropertyComponent } from './components/main/property/property.component';
 
 @NgModule({
   declarations: [
@@ -24,12 +29,18 @@ import { ChangePasswordModalComponent } from './components/profile/change-passwo
     HotelReservationsComponent,
     RestaurantReservationsComponent,
     ChangePasswordModalComponent,
+    FooterComponent,
+    HeroComponent,
+    HotelsSectionComponent,
+    FeaturesComponent,
+    PropertyComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     {

@@ -7,62 +7,23 @@ import { AuthService } from "src/app/services/auth.service";
   styleUrls: ["./main.component.scss"],
 })
 export class MainComponent {
-  // users: any[] = [];
-  // detailedUsers: any[] = [];
+  hotels: any[] = [];
 
-  // constructor(private authService: AuthService) {}
+  // constructor(private accommodationService: AccommodationService) {}
 
-  // ngOnInit() {
-  //   // Получаем общую информацию (username, email, id)
-  //   this.authService.getUsers().subscribe({
-  //     next: (data: any) => {
-  //       this.users = data;
-  //     },
-  //     error: (err) => {
-  //       console.error("Ошибка при получении пользователей", err);
-  //     },
-  //   });
+  handleSearch(hotels: any[]): void {
+    this.hotels = hotels;
+    console.log("Filtered hotels:", hotels);
+    // In a real app, you would navigate to search results page
+    // this.router.navigate(['/search'], {
+    //   queryParams: searchParams
+    // });
 
-  //   // Получаем детальную информацию о пользователях (по токену)
-  //   this.authService.getDetailedUsers().subscribe({
-  //     next: (res: any) => {
-  //       this.detailedUsers = res.users;
-  //       console.log("Детальная информация:", this.detailedUsers);
-  //     },
-  //     error: (err) => {
-  //       console.error("Ошибка при получении детальной информации", err);
-  //     },
-  //   });
-  // }
-
-  // getDetailedUser(username: string) {
-  //   return this.detailedUsers.find((u) => u.username === username);
-  // }
-
-  userDetails: any = null;
-  currentUsername: string | null = null;
-
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this.currentUsername = localStorage.getItem("username");
-
-    if (!this.currentUsername) {
-      console.error("Пользователь не найден в localStorage");
-      return;
-    }
-
-    this.authService.getDetailedUsers().subscribe({
-      next: (res: any) => {
-        const allDetails = res.users;
-        this.userDetails = allDetails.find(
-          (u: any) => u.username === this.currentUsername
-        );
-        console.log("Информация о текущем пользователе:", this.userDetails);
-      },
-      error: (err) => {
-        console.error("Ошибка при получении детальной информации", err);
-      },
-    });
+    // Or call the service to get search results
+    // this.accommodationService
+    //   .searchAccommodations(searchParams)
+    //   .subscribe((results) => {
+    //     console.log("Search results:", results);
+    //   });
   }
 }

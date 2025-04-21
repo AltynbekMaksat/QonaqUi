@@ -1,0 +1,72 @@
+<section class="section">
+  <div class="section__container">
+    <h2 class="section__title">Hotels in your area</h2>
+
+    <div class="carousel">
+      <button
+        class="carousel__arrow carousel__arrow--prev"
+        (click)="prevHotels()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="carousel__container">
+        <div
+          class="carousel__track"
+          [style.transform]="'translateX(' + hotelsTranslate + 'px)'"
+        >
+          <div class="card" *ngFor="let hotel of hotels">
+            <div class="card__image-container">
+              <img
+                [src]="hotel.imageUrl"
+                [alt]="hotel.name"
+                class="card__image"
+              />
+              <div class="card__badge" *ngIf="hotel.badge">
+                {{ hotel.badge }}
+              </div>
+            </div>
+            <div class="card__content">
+              <h3 class="card__title">{{ hotel.name }}</h3>
+              <div class="card__rating">
+                <span class="card__stars">{{ hotel.rating }}</span>
+                <span class="card__reviews">({{ hotel.reviews }})</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="carousel__arrow carousel__arrow--next"
+        (click)="nextHotels()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,161 @@
+@import "../../../../mixin";
+
+$primary-color: #c49c74;
+$text-color: #252525;
+$light-text: #a1a7b0;
+$background-color: #f6f6f6;
+$white: #ffffff;
+$border-color: #e0e0e0;
+$shadow-color: rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+$border-radius: 12px;
+
+.section {
+  padding: 60px 0;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+
+    @include break(768px) {
+      font-size: 24px;
+    }
+  }
+}
+
+// Carousel
+.carousel {
+  position: relative;
+
+  &__container {
+    overflow: hidden;
+    margin: 0 40px;
+  }
+
+  &__track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $white;
+    border: 1px solid $border-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 10px $shadow-color;
+    transition: $transition;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $white;
+      border-color: $primary-color;
+    }
+
+    &--prev {
+      left: 0;
+    }
+
+    &--next {
+      right: 0;
+    }
+  }
+}
+
+// Card
+.card {
+  flex: 0 0 calc(25% - 15px);
+  border-radius: $border-radius;
+  overflow: hidden;
+  box-shadow: 0 5px 15px $shadow-color;
+  background-color: $white;
+  transition: $transition;
+
+  @include break(992px) {
+    flex: 0 0 calc(33.333% - 14px);
+  }
+
+  @include break(768px) {
+    flex: 0 0 calc(50% - 10px);
+  }
+
+  @include break(576px) {
+    flex: 0 0 100%;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px $shadow-color;
+  }
+
+  &__image-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: $primary-color;
+    color: $white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  &__content {
+    padding: 15px;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__stars {
+    color: $primary-color;
+    font-weight: 600;
+  }
+
+  &__reviews {
+    color: $light-text;
+    font-size: 14px;
+  }
+}
