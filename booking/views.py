@@ -189,6 +189,12 @@ class ReservationRestAPIDestroy(generics.RetrieveDestroyAPIView):
 
 # --- Room booking, approving, & cancelling view ---
 class BookRoomAPIView(APIView):
+    def get(self, request):
+        reservations = ReservationHotel.objects.all().values(
+            'id', 'customer', 'room', 'check_in_date', 'check_out_date', 'status'
+        )
+        return Response(list(reservations))
+
     def post(self, request):
         customer_id = request.data.get('customer_id')
         room_number = request.data.get('room_number')
