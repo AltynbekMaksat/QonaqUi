@@ -6,27 +6,14 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class PasswordService {
-  private apiUrl = "http://127.0.0.1:8000/booking/user/"; // API base URL
+  private setPasswordUrl = "http://127.0.0.1:8000/auth/users/set_password/";
 
   constructor(private http: HttpClient) {}
 
-  // Получение старого пароля для сравнения
-  getCurrentPassword(userId: number): Observable<any> {
-    const url = `${this.apiUrl}${userId}/`; // эндпоинт для получения пользователя
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    });
-
-    return this.http.get(url, { headers });
-  }
-
-  // Изменение пароля
   changePassword(
-    userId: number,
     currentPassword: string,
     newPassword: string
   ): Observable<any> {
-    const url = `${this.apiUrl}${userId}/`; // полный URL для изменения пароля
     const body = {
       current_password: currentPassword,
       new_password: newPassword,
@@ -36,6 +23,6 @@ export class PasswordService {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     });
 
-    return this.http.put(url, body, { headers });
+    return this.http.post(this.setPasswordUrl, body, { headers });
   }
 }

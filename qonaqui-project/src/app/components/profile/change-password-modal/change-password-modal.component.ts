@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { PasswordService } from "src/app/services/password.service";
+import { ProfileService } from "src/app/services/profile.service";
 import { IUser } from "src/app/shared/user";
 
 @Component({
@@ -9,15 +10,17 @@ import { IUser } from "src/app/shared/user";
   styleUrls: ["./change-password-modal.component.scss"],
 })
 export class ChangePasswordModalComponent {
-  @Input() userData!: IUser;
+  @Input() userData: IUser | null = null;
   @Output() close = new EventEmitter<void>();
   @Output() passwordChanged = new EventEmitter<void>();
 
   passwordForm: FormGroup;
+  userId!: number;
 
   constructor(
     private fb: FormBuilder,
-    private passwordService: PasswordService
+    private passwordService: PasswordService,
+    private profileService: ProfileService
   ) {
     this.passwordForm = this.fb.group(
       {
@@ -29,6 +32,21 @@ export class ChangePasswordModalComponent {
     );
   }
 
+  ngOnInit(): void {
+    console.log(this.userData);
+
+    this.profileService.getUserProfile().subscribe({
+      next: (user) => {
+        this.userData = user;
+        this.userId = user.id;
+        console.log(this.userData);
+      },
+      error: (err) => {
+        console.error("Error fetching user data:", err);
+      },
+    });
+  }
+
   onClose(): void {
     this.close.emit();
   }
@@ -37,29 +55,23 @@ export class ChangePasswordModalComponent {
     if (this.passwordForm.valid) {
       const { currentPassword, newPassword } = this.passwordForm.value;
 
-      // Используем переданный userId для отправки запроса на сервер
-      this.passwordService.getCurrentPassword(this.userData.id).subscribe(
-        (response: any) => {
-          if (response.password === currentPassword) {
-            this.passwordService
-              .changePassword(this.userData.id, currentPassword, newPassword)
-              .subscribe(
-                (res) => {
-                  console.log("Пароль успешно изменён");
-                  this.passwordChanged.emit();
-                },
-                (error) => {
-                  console.error("Ошибка при изменении пароля", error);
-                }
-              );
-          } else {
-            console.error("Неверный текущий пароль");
+      this.passwordService
+        .changePassword(currentPassword, newPassword)
+        .subscribe(
+          (res) => {
+            console.log("Пароль успешно изменён");
+            this.passwordChanged.emit();
+            this.onClose();
+          },
+          (error) => {
+            console.error("Ошибка при изменении пароля", error);
+            if (error.status === 400) {
+              this.passwordForm
+                .get("currentPassword")
+                ?.setErrors({ invalidCurrent: true });
+            }
           }
-        },
-        (error) => {
-          console.error("Ошибка при получении текущего пароля", error);
-        }
-      );
+        );
     }
   }
 
