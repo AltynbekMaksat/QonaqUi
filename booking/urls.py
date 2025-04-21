@@ -10,14 +10,13 @@ urlpatterns = [
     path('user/<int:pk>/', views.UserAPIView.as_view()),
 
     # Restaurant
-    path('restaurants/', RestaurantAPIList.as_view()),
-    path('restaurants/<int:pk>/', RestaurantAPIUpdate.as_view()),
-    path('restaurants/delete/<int:pk>/', RestaurantAPIDestroy.as_view()),
+    path('restaurants/', restaurant_list_create),
+    path('restaurants/<int:pk>/', restaurant_update),
+    path('restaurants/<int:pk>/delete/', restaurant_delete),
 
-    # Table
-    path('tables/', TableAPIList.as_view()),
-    path('tables/<int:pk>/', TableAPIUpdate.as_view()),
-    path('tables/delete/<int:pk>/', TableAPIDestroy.as_view()),
+    path('tables/', table_list_create),
+    path('tables/<int:pk>/', table_update),
+    path('tables/<int:pk>/delete/', table_delete),
 
     # Customer
     path('customers/', CustomerAPIList.as_view()),
