@@ -25,10 +25,10 @@ export class PersonalInfoComponent implements OnChanges {
 
   constructor(private fb: FormBuilder, private profileService: ProfileService) {
     this.userForm = this.fb.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
+      first_name: ["", Validators.required],
+      last_name: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
-      phoneNumber: ["", Validators.pattern(/^\+?[0-9\s\-]+$/)],
+      phone_number: ["", Validators.pattern(/^\+?[0-9\s\-]+$/)],
       role: [{ value: "", disabled: true }],
     });
   }
@@ -47,6 +47,7 @@ export class PersonalInfoComponent implements OnChanges {
       next: (user) => {
         this.userData = user;
         this.userForm.patchValue(this.userData);
+        console.log(this.userData);
       },
       error: (err) => {
         console.error("Error fetching user data:", err);

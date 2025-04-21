@@ -11,13 +11,13 @@
           <label class="profile__label">First Name</label>
           <input
             type="text"
-            formControlName="firstName"
+            formControlName="first_name"
             class="profile__input"
           />
           <div
             *ngIf="
-              userForm.get('firstName')?.invalid &&
-              userForm.get('firstName')?.touched
+              userForm.get('first_name')?.invalid &&
+              userForm.get('first_name')?.touched
             "
             class="profile__error"
           >
@@ -29,13 +29,13 @@
           <label class="profile__label">Last Name</label>
           <input
             type="text"
-            formControlName="lastName"
+            formControlName="last_name"
             class="profile__input"
           />
           <div
             *ngIf="
-              userForm.get('lastName')?.invalid &&
-              userForm.get('lastName')?.touched
+              userForm.get('last_name')?.invalid &&
+              userForm.get('last_name')?.touched
             "
             class="profile__error"
           >
@@ -60,10 +60,15 @@
 
         <div class="profile__form-group">
           <label class="profile__label">Phone Number</label>
-          <input type="tel" formControlName="phone" class="profile__input" />
+          <input
+            type="tel"
+            formControlName="phone_number"
+            class="profile__input"
+          />
           <div
             *ngIf="
-              userForm.get('phone')?.invalid && userForm.get('phone')?.touched
+              userForm.get('phone_number')?.invalid &&
+              userForm.get('phone_number')?.touched
             "
             class="profile__error"
           >
