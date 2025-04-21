@@ -1,6 +1,9 @@
 from django.forms import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import render
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 from rest_framework.views import APIView
@@ -60,9 +63,19 @@ class HotelAPIView(APIView):
 
 # юзер
 class UserAPIView(APIView):
-    def get(self, request):
-        users = User.objects.all()
-        return Response({'users': UserSerializer(users, many=True).data})
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        if pk:
+            try:
+                user = User.objects.get(pk=pk)
+                serializer = UserSerializer(user)
+                return Response({'user': serializer.data})
+            except User.DoesNotExist:
+                return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            users = User.objects.all()
+            serializer = UserSerializer(users, many=True)
+            return Response({'users': serializer.data})
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -98,33 +111,99 @@ class UserAPIView(APIView):
 
 
 # для чайханы
-class RestaurantAPIList(generics.ListCreateAPIView):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
 
-class RestaurantAPIUpdate(generics.RetrieveUpdateAPIView):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
+# гет и пост
+@api_view(['GET', 'POST'])
+def restaurant_list_create(request):
+    if request.method == 'GET':
+        restaurants = Restaurant.objects.all()
+        serializer = RestaurantSerializer(restaurants, many=True)
+        return Response(serializer.data)
 
-class RestaurantAPIDestroy(generics.RetrieveDestroyAPIView):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
+    elif request.method == 'POST':
+        serializer = RestaurantSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
+
+
+# апдейт
+@api_view(['PUT', 'GET'])
+def restaurant_update(request, pk):
+    try:
+        restaurant = Restaurant.objects.get(pk=pk)
+    except Restaurant.DoesNotExist:
+        return Response({'error': 'Restaurant not found'}, status=404)
+
+    if request.method == 'GET':
+        serializer = RestaurantSerializer(restaurant)
+        return Response(serializer.data)
+
+    serializer = RestaurantSerializer(restaurant, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+# удаление
+@api_view(['DELETE'])
+def restaurant_delete(request, pk):
+    try:
+        restaurant = Restaurant.objects.get(pk=pk)
+    except Restaurant.DoesNotExist:
+        return Response({'error': 'Restaurant not found'}, status=404)
+
+    restaurant.delete()
+    return Response(status=204)
 
 
 
 # --- Table ---
-class TableAPIList(generics.ListCreateAPIView):
-    queryset = Table.objects.all()
-    serializer_class = TableSerializer
+# гет и пост
+@api_view(['GET', 'POST'])
+def table_list_create(request):
+    if request.method == 'GET':
+        tables = Table.objects.all()
+        serializer = TableSerializer(tables, many=True)
+        return Response(serializer.data)
 
-class TableAPIUpdate(generics.RetrieveUpdateAPIView):
-    queryset = Table.objects.all()
-    serializer_class = TableSerializer
+    elif request.method == 'POST':
+        serializer = TableSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-class TableAPIDestroy(generics.RetrieveDestroyAPIView):
-    queryset = Table.objects.all()
-    serializer_class = TableSerializer
+# апдейт
+@api_view(['PUT', 'GET'])
+def table_update(request, pk):
+    try:
+        table = Table.objects.get(pk=pk)
+    except Table.DoesNotExist:
+        return Response({'error': 'Table not found'}, status=404)
+
+    if request.method == 'GET':
+        serializer = TableSerializer(table)
+        return Response(serializer.data)
+
+    serializer = TableSerializer(table, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+# удаление
+@api_view(['DELETE'])
+def table_delete(request, pk):
+    try:
+        table = Table.objects.get(pk=pk)
+    except Table.DoesNotExist:
+        return Response({'error': 'Table not found'}, status=404)
+
+    table.delete()
+    return Response(status=204)
 
 
 

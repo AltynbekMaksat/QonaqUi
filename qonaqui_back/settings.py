@@ -147,4 +147,10 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'LOGIN_FIELD': 'username',
+
+    'SERIALIZERS': {
+        'user': 'booking.serializers.CustomUserSerializer',
+        'current_user': 'booking.serializers.CustomUserSerializer',
+    }
 }
+

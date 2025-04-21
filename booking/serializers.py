@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from .models import *
+from djoser.serializers import UserSerializer as BaseUserSerializer
 
 
 class HotelSerializer(serializers.Serializer):
@@ -89,4 +90,10 @@ class ReservationRestSerializer(serializers.ModelSerializer):
         model = ReservationRest
         fields = '__all__'
 
+
+# чтоб джойсер выводил все данные и а не только 3
+class CustomUserSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'role', 'phone_number')
 
