@@ -1,0 +1,52 @@
+<div class="auth auth--register">
+  <a href="/" class="auth__logo-link">
+    <div class="auth__logo">
+      <img
+        src="../../../../assets/images/logo3.png"
+        alt="Bookme.com"
+        class="auth__logo-img"
+      />
+    </div>
+  </a>
+  <div class="auth__wrapper">
+    <h1 class="auth__title">REGISTER</h1>
+    <p class="auth__description">Create a new account to get started.</p>
+    <form (ngSubmit)="register()" class="auth__form">
+      <div class="auth__input-wrapper">
+        <input
+          type="text"
+          placeholder="USERNAME"
+          [(ngModel)]="username"
+          name="username"
+          required
+          class="auth__input"
+        />
+      </div>
+      <div class="auth__input-wrapper">
+        <input
+          type="password"
+          placeholder="PASSWORD"
+          [(ngModel)]="password"
+          name="password"
+          required
+          class="auth__input"
+        />
+      </div>
+      <div class="auth__input-wrapper">
+        <input
+          type="password"
+          placeholder="CONFIRM PASSWORD"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          required
+          class="auth__input"
+        />
+      </div>
+      <button type="submit" class="auth__button">Register</button>
+      <div class="auth__link-wrapper">
+        <span>Already have an account?</span>
+        <a routerLink="/auth/login" class="auth__link">Login</a>
+      </div>
+    </form>
+  </div>
+</div>

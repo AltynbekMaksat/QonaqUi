@@ -1,0 +1,106 @@
+<div class="profile__section">
+  <div class="profile__section-header">
+    <h2 class="profile__section-title">Hotel Reservations</h2>
+    <div class="profile__section-line"></div>
+  </div>
+  <div class="profile__card">
+    <div class="profile__card-accent"></div>
+    <div *ngIf="reservations.length > 0; else noReservations">
+      <div class="profile__reservations">
+        <div
+          class="profile__reservation"
+          *ngFor="let reservation of reservations"
+        >
+          <div
+            class="profile__reservation-image"
+            [style.background-image]="'url(' + reservation.imageUrl + ')'"
+          >
+            <div
+              class="profile__reservation-status"
+              [ngClass]="
+                'profile__reservation-status--' +
+                reservation.status.toLowerCase()
+              "
+            >
+              {{ reservation.status }}
+            </div>
+            <div class="profile__reservation-overlay"></div>
+          </div>
+
+          <div class="profile__reservation-content">
+            <h3 class="profile__reservation-title">
+              {{ reservation.hotelName }}
+            </h3>
+
+            <div class="profile__reservation-details">
+              <div class="profile__reservation-info">
+                <span class="profile__reservation-label">Room</span>
+                <span class="profile__reservation-value">{{
+                  reservation.roomNumber
+                }}</span>
+              </div>
+
+              <div class="profile__reservation-info">
+                <span class="profile__reservation-label">Check-in</span>
+                <span class="profile__reservation-value">{{
+                  reservation.checkIn | date : "MMM d, y"
+                }}</span>
+              </div>
+
+              <div class="profile__reservation-info">
+                <span class="profile__reservation-label">Check-out</span>
+                <span class="profile__reservation-value">{{
+                  reservation.checkOut | date : "MMM d, y"
+                }}</span>
+              </div>
+
+              <div class="profile__reservation-info">
+                <span class="profile__reservation-label">Price</span>
+                <span
+                  class="profile__reservation-value profile__reservation-value--price"
+                  >$ {{ reservation.price }}</span
+                >
+              </div>
+            </div>
+
+            <div
+              class="profile__reservation-actions"
+              *ngIf="reservation.status === 'Confirmed'"
+            >
+              <button
+                class="profile__reservation-button profile__reservation-button--cancel"
+                (click)="onCancelReservation(reservation.id)"
+              >
+                Cancel Reservation
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noReservations>
+      <div class="profile__empty-state">
+        <div class="profile__empty-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"
+            ></path>
+          </svg>
+        </div>
+        <p class="profile__empty-text">No active hotel reservations</p>
+        <a href="/hotels" class="profile__empty-link">Browse Hotels</a>
+      </div>
+    </ng-template>
+  </div>
+</div>

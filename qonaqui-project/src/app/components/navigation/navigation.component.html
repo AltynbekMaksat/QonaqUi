@@ -22,6 +22,11 @@
     </ul>
   </nav>
   <div class="navigation__profile">
-    <a routerLink="/auth" class="navigation__profile-link">Profile</a>
+    <a routerLink="/profile" class="navigation__profile-link" *ngIf="isAuth"
+      >Profile</a
+    >
+    <a routerLink="/auth" class="navigation__profile-link" *ngIf="!isAuth"
+      >Login</a
+    >
   </div>
 </div>

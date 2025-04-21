@@ -1,0 +1,265 @@
+// This component uses the same styles as hotel-reservations.component.scss
+// You can either duplicate the styles or create a shared styles file
+@import "../../../../mixin";
+
+.profile {
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__section-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+  }
+
+  &__section-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #252525;
+    margin: 0;
+
+    @include break(768px) {
+      font-size: 22px;
+    }
+
+    @include break(576px) {
+      font-size: 20px;
+    }
+  }
+
+  &__section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, #c49c74, rgba(196, 156, 116, 0.1));
+  }
+
+  &__card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    @include break(768px) {
+      padding: 25px;
+    }
+
+    @include break(576px) {
+      padding: 20px;
+    }
+  }
+
+  &__card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, #c49c74, #c9beb3);
+  }
+
+  &__reservations {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+
+    @include break(576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__reservation {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+      .profile__reservation-overlay {
+        opacity: 0.4;
+      }
+    }
+  }
+
+  &__reservation-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  &__reservation-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(29, 29, 29, 0.2),
+      rgba(29, 29, 29, 0.6)
+    );
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+
+  &__reservation-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    &--confirmed {
+      background-color: rgba(76, 175, 80, 0.9);
+      color: white;
+    }
+
+    &--cancelled {
+      background-color: rgba(244, 67, 54, 0.9);
+      color: white;
+    }
+
+    &--pending {
+      background-color: rgba(255, 152, 0, 0.9);
+      color: white;
+    }
+  }
+
+  &__reservation-content {
+    padding: 25px;
+  }
+
+  &__reservation-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: #252525;
+    position: relative;
+    padding-bottom: 12px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: #c49c74;
+    }
+  }
+
+  &__reservation-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  &__reservation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__reservation-label {
+    font-size: 12px;
+    color: #a1a7b0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__reservation-value {
+    font-size: 14px;
+    color: #252525;
+    font-weight: 500;
+  }
+
+  &__reservation-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__reservation-button {
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Ubuntu", sans-serif;
+    border: none;
+
+    &--cancel {
+      background-color: transparent;
+      border: 1px solid #c74a41;
+      color: #c74a41;
+
+      &:hover {
+        background-color: rgba(199, 74, 65, 0.05);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    text-align: center;
+  }
+
+  &__empty-icon {
+    margin-bottom: 20px;
+    color: #c9beb3;
+
+    svg {
+      opacity: 0.7;
+    }
+  }
+
+  &__empty-text {
+    font-size: 16px;
+    color: #a1a7b0;
+    margin-bottom: 20px;
+  }
+
+  &__empty-link {
+    color: #c49c74;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border: 1px solid #c49c74;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #c49c74;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(196, 156, 116, 0.2);
+    }
+  }
+}

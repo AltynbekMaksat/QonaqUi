@@ -1,0 +1,40 @@
+<div class="auth">
+  <a href="/" class="auth__logo-link">
+    <div class="auth__logo">
+      <img
+        src="../../../../assets/images/logo3.png"
+        alt="Bookme.com"
+        class="auth__logo-img"
+      />
+    </div>
+  </a>
+  <div class="auth__wrapper">
+    <h1 class="auth__title">LOGIN</h1>
+    <p class="auth__description">
+      Please enter your username and password to login.
+    </p>
+    <div class="auth__form">
+      <div class="auth__input-wrapper">
+        <input
+          type="text"
+          [(ngModel)]="username"
+          placeholder="USERNAME"
+          class="auth__input"
+        />
+      </div>
+      <div class="auth__input-wrapper">
+        <input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="PASSWORD"
+          class="auth__input"
+        />
+      </div>
+      <button (click)="login()" class="auth__button">Login</button>
+      <div class="auth__link-wrapper">
+        <span>Don't have an account?</span>
+        <a routerLink="/auth/register" class="auth__link">Register</a>
+      </div>
+    </div>
+  </div>
+</div>
