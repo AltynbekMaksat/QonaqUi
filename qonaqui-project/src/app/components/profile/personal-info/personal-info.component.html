@@ -1,0 +1,93 @@
+<div class="profile__section">
+  <div class="profile__section-header">
+    <h2 class="profile__section-title">Personal Information</h2>
+    <div class="profile__section-line"></div>
+  </div>
+  <div class="profile__card">
+    <div class="profile__card-accent"></div>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="profile__form-row">
+        <div class="profile__form-group">
+          <label class="profile__label">First Name</label>
+          <input
+            type="text"
+            formControlName="firstName"
+            class="profile__input"
+          />
+          <div
+            *ngIf="
+              userForm.get('firstName')?.invalid &&
+              userForm.get('firstName')?.touched
+            "
+            class="profile__error"
+          >
+            First name is required
+          </div>
+        </div>
+
+        <div class="profile__form-group">
+          <label class="profile__label">Last Name</label>
+          <input
+            type="text"
+            formControlName="lastName"
+            class="profile__input"
+          />
+          <div
+            *ngIf="
+              userForm.get('lastName')?.invalid &&
+              userForm.get('lastName')?.touched
+            "
+            class="profile__error"
+          >
+            Last name is required
+          </div>
+        </div>
+      </div>
+
+      <div class="profile__form-row">
+        <div class="profile__form-group">
+          <label class="profile__label">Email</label>
+          <input type="email" formControlName="email" class="profile__input" />
+          <div
+            *ngIf="
+              userForm.get('email')?.invalid && userForm.get('email')?.touched
+            "
+            class="profile__error"
+          >
+            Please enter a valid email
+          </div>
+        </div>
+
+        <div class="profile__form-group">
+          <label class="profile__label">Phone Number</label>
+          <input type="tel" formControlName="phone" class="profile__input" />
+          <div
+            *ngIf="
+              userForm.get('phone')?.invalid && userForm.get('phone')?.touched
+            "
+            class="profile__error"
+          >
+            Please enter a valid phone number
+          </div>
+        </div>
+      </div>
+
+      <div class="profile__actions">
+        <button
+          type="submit"
+          class="profile__button profile__button--primary"
+          [disabled]="userForm.invalid || !userForm.dirty"
+        >
+          Save Changes
+        </button>
+        <button
+          type="button"
+          class="profile__button profile__button--secondary"
+          (click)="onChangePassword()"
+        >
+          Change Password
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

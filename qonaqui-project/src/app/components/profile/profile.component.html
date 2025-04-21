@@ -1,0 +1,44 @@
+<div class="profile">
+  <div class="profile__header">
+    <div class="profile__header-content">
+      <h1 class="profile__title">My Profile</h1>
+      <p class="profile__subtitle">
+        Manage your personal information and bookings
+      </p>
+    </div>
+    <div class="profile__header-pattern"></div>
+  </div>
+
+  <div class="profile__content">
+    <app-personal-info
+      [userData]="userData"
+      (saveUserData)="onUserDataSaved($event)"
+      (openPasswordModal)="openChangePasswordModal()"
+    >
+    </app-personal-info>
+
+    <app-hotel-reservations
+      [reservations]="hotelReservations"
+      (cancelReservation)="onCancelHotelReservation($event)"
+    >
+    </app-hotel-reservations>
+
+    <app-restaurant-reservations
+      [reservations]="restaurantReservations"
+      (cancelReservation)="onCancelRestaurantReservation($event)"
+    >
+    </app-restaurant-reservations>
+  </div>
+</div>
+
+<!-- Loading Template
+<ng-template #loadingTemplate>
+  <app-loading></app-loading>
+</ng-template> -->
+<app-change-password-modal
+  *ngIf="showPasswordModal"
+  [userData]="userData"
+  (close)="closeChangePasswordModal()"
+  (passwordChanged)="onPasswordChanged()"
+>
+</app-change-password-modal>
