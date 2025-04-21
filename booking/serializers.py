@@ -95,5 +95,7 @@ class ReservationRestSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'role', 'phone_number')
-
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'role', 'phone_number', 'password')
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
