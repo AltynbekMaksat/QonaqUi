@@ -1,8 +1,13 @@
+import { IRoom } from "./room";
+
 export interface IHotel {
+  averagePrice?: any;
+  id: number;
   name: string;
   address: string;
   description: string;
   rating: number;
-  imageUrl?: string;
+  rooms: IRoom[];
+  photo_url: string;
   badge?: string;
 }

@@ -1,15 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-
-interface Hotel {
-  id: string;
-  name: string;
-  location: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  imageUrl: string;
-  badge?: string;
-}
+import { IHotel } from "src/app/shared/hotel";
 
 @Component({
   selector: "app-hotel-card",
@@ -17,7 +7,7 @@ interface Hotel {
   styleUrls: ["./hotel-card.component.scss"],
 })
 export class HotelCardComponent {
-  @Input() hotel!: Hotel;
+  @Input() hotel!: IHotel;
   @Output() viewDetails = new EventEmitter<string>();
 
   getRatingLabel(rating: number): string {
@@ -28,7 +18,13 @@ export class HotelCardComponent {
     return "Average";
   }
 
+  getAveragePrice(rooms: any[]): number {
+    if (!rooms || rooms.length === 0) return 0;
+    const total = rooms.reduce((sum, room) => sum + room.price_per_night, 0);
+    return Math.round(total / rooms.length);
+  }
+
   onViewDetails(): void {
-    this.viewDetails.emit(this.hotel.id);
+    this.viewDetails.emit(this.hotel.id.toString());
   }
 }

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 
 @Component({
   selector: "app-filter-sidebar",
@@ -15,8 +22,7 @@ export class FilterSidebarComponent implements OnInit {
   };
 
   @Output() filterChange = new EventEmitter<any>();
-
-  maxPrice = 500;
+  @Input() maxPrice: number = 0;
 
   propertyTypes = ["Hotel", "Apartment", "Resort", "Villa", "Cottage"];
   amenities = [
@@ -46,6 +52,14 @@ export class FilterSidebarComponent implements OnInit {
 
     if (!this.filters.amenities) {
       this.filters.amenities = [];
+    }
+    if (this.filters.priceRange.max < this.maxPrice) {
+      this.filters.priceRange.max = this.maxPrice;
+    }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["maxPrice"] && this.maxPrice > 0) {
+      this.filters.priceRange.max = this.maxPrice;
     }
   }
 

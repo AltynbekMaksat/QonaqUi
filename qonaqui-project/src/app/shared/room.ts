@@ -4,6 +4,6 @@ export interface IRoom {
   hotel: IHotel;
   roomNumber: number;
   roomType: string;
-  price: number;
+  price_per_night: number;
   isAvailable: boolean;
 }

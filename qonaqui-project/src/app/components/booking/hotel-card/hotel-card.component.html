@@ -1,7 +1,7 @@
 <div class="hotel-card">
   <div class="hotel-card__image-container">
-    <img [src]="hotel.imageUrl" [alt]="hotel.name" class="hotel-card__image" />
-    <div class="hotel-card__badge" *ngIf="hotel.badge">{{ hotel.badge }}</div>
+    <img [src]="hotel.photo_url" [alt]="hotel.name" class="hotel-card__image" />
+    <!-- <div class="hotel-card__badge" *ngIf="hotel.badge">{{ hotel.badge }}</div> -->
   </div>
 
   <div class="hotel-card__content">
@@ -22,7 +22,7 @@
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-        <span>{{ hotel.location }}</span>
+        <span>{{ hotel.address }}</span>
       </div>
 
       <div class="hotel-card__amenities">
@@ -39,13 +39,16 @@
           <div class="hotel-card__rating-label">
             {{ getRatingLabel(hotel.rating) }}
           </div>
-          <div class="hotel-card__reviews">{{ hotel.reviews }} reviews</div>
         </div>
       </div>
 
       <div class="hotel-card__price-container">
         <div class="hotel-card__price-label">Price per night</div>
-        <div class="hotel-card__price">${{ hotel.price }}</div>
+        <div class="hotel-card__price">
+          {{
+            getAveragePrice(hotel.rooms) | currency : "KZT" : "symbol" : "1.0-0"
+          }}
+        </div>
         <button class="hotel-card__button" (click)="onViewDetails()">
           View Deal
         </button>

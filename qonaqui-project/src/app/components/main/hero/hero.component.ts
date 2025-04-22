@@ -21,15 +21,25 @@ export class HeroComponent {
   constructor(private hotelService: HotelService) {}
 
   ngOnInit(): void {
-    // You can set initial values here if needed
-    // this.initialSearchValues = {...}
+    if (!this.initialSearchValues.location) {
+      this.initialSearchValues.location = "";
+    }
+    if (!this.initialSearchValues.check_in) {
+      this.initialSearchValues.check_in = "";
+    }
+    if (!this.initialSearchValues.check_out) {
+      this.initialSearchValues.check_out = "";
+    }
+    if (!this.initialSearchValues.guests) {
+      this.initialSearchValues.guests = 0;
+    }
   }
 
   onSearch(params: ISearchParams): void {
     this.hotelService.searchHotels(params).subscribe({
       next: (response) => {
         const hotels = response.hotels || response;
-        this.search.emit(hotels);
+        this.search.emit(params);
       },
       error: (err) => {
         console.error("Error fetching hotels:", err);

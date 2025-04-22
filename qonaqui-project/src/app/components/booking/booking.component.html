@@ -24,6 +24,7 @@
       <div class="booking-page__sidebar">
         <app-filter-sidebar
           [filters]="filters"
+          [maxPrice]="filters.priceRange.max"
           (filterChange)="onFilterChange($event)"
         >
         </app-filter-sidebar>

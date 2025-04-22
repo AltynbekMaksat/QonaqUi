@@ -22,7 +22,7 @@ export class SearchFormComponent implements OnInit {
     location: FormControl<string>;
     checkIn: FormControl<string>;
     checkOut: FormControl<string>;
-    guests: FormControl<string>;
+    guests: FormControl<number>;
   }>;
 
   constructor(private fb: FormBuilder) {}
@@ -41,16 +41,14 @@ export class SearchFormComponent implements OnInit {
         validators: [Validators.required],
         nonNullable: true,
       }),
-      guests: this.fb.control(
-        this.initialValues.guests ? String(this.initialValues.guests) : "",
-        {
-          validators: [
-            Validators.required,
-            Validators.pattern("^[1-9][0-9]*$"),
-          ],
-          nonNullable: true,
-        }
-      ),
+      guests: this.fb.control(this.initialValues.guests || 0, {
+        validators: [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern("^[0-9]*$"),
+        ],
+        nonNullable: true,
+      }),
     });
   }
 
