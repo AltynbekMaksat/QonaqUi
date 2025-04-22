@@ -33,6 +33,18 @@ class Hotel(models.Model):
 
 
 class Room(models.Model):
+    SINGLE = 'Bomzh'
+    DOUBLE = 'Econom'
+    SUITE = 'Comfort'
+    DELUXE = 'Luxury'
+
+    ROOM_TYPE_CHOICES = [
+        (SINGLE, 'bomzh'),
+        (DOUBLE, 'Econom'),
+        (SUITE, 'Comfort'),
+        (DELUXE, 'Luxury'),
+    ]
+
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_number = models.IntegerField()
     room_type = models.CharField(max_length=100)
