@@ -292,6 +292,7 @@ class SearchHotelsByLocationAPIView(APIView):
                 })
 
             hotel_data.append({
+                'hotel_id': hotel.pk,
                 'hotel_name': hotel.name,
                 'hotel_address': hotel.address,
                 'hotel_description': hotel.description,
@@ -325,26 +326,36 @@ class SearchAvailableRoomsAPIView(APIView):
         except ValueError:
             return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
 
-        rooms = Room.objects.filter(hotel__address__icontains=location)
+        hotels = Hotel.objects.filter(address__icontains=location)
+        hotel_data = []
 
-        available_rooms = []
+        for hotel in hotels:
+            rooms = Room.objects.filter(hotel=hotel)
+            available_rooms = []
+            for room in rooms:
+                overlapping_reservations = ReservationHotel.objects.filter(
+                    room=room,
+                    check_in_date__lt=check_out,
+                    check_out_date__gt=check_in
+                )
 
-        for room in rooms:
-            overlapping_reservations = ReservationHotel.objects.filter(
-                room=room,
-                check_in_date__lt=check_out,
-                check_out_date__gt=check_in
-            )
+                if not overlapping_reservations.exists():
+                    available_rooms.append({
+                        'room_number': room.room_number,
+                        'hotel': room.hotel.name,
+                        'address': room.hotel.address,
+                        'room type': room.room_type,
+                    })
+            hotel_data.append({
+                'hotel_id': hotel.pk,
+                'hotel_name': hotel.name,
+                'hotel_address': hotel.address,
+                'hotel_description': hotel.description,
+                'hotel_rating': hotel.rating,
+                'rooms': available_rooms
+            })
 
-            if not overlapping_reservations.exists():
-                available_rooms.append({
-                    'room_number': room.room_number,
-                    'hotel': room.hotel.name,
-                    'address': room.hotel.address,
-                    'room type': room.room_type,
-                })
-
-        return Response(available_rooms)
+        return Response(hotel_data)
 
 
 class SearchAvailableRoomsByCoordsAPIView(APIView):
@@ -375,31 +386,41 @@ class SearchAvailableRoomsByCoordsAPIView(APIView):
         except ValueError:
             return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
 
-        rooms = Room.objects.all()
+        hotels = Hotel.objects.filter(latitude=latitude, longitude=longitude)
+        hotel_data = []
 
-        available_rooms = []
+        for hotel in hotels:
+            rooms = Room.objects.filter(hotel=hotel)
+            available_rooms = []
+            for room in rooms:
+                hotel_latitude = room.hotel.latitude
+                hotel_longitude = room.hotel.longitude
+                distance = geodesic((latitude, longitude), (hotel_latitude, hotel_longitude)).km
+                if distance <= 50:
+                    overlapping_reservations = ReservationHotel.objects.filter(
+                        room=room,
+                        check_in_date__lt=check_out_date,
+                        check_out_date__gt=check_in_date
+                    )
 
-        for room in rooms:
-            hotel_latitude = room.hotel.latitude
-            hotel_longitude = room.hotel.longitude
-            distance = geodesic((latitude, longitude), (hotel_latitude, hotel_longitude)).km
-            if distance <= 50:
-                overlapping_reservations = ReservationHotel.objects.filter(
-                    room=room,
-                    check_in_date__lt=check_out_date,
-                    check_out_date__gt=check_in_date
-                )
+                    if not overlapping_reservations.exists():
+                        available_rooms.append({
+                            'room_number': room.room_number,
+                            'hotel': room.hotel.name,
+                            'address': room.hotel.address,
+                            'room_type': room.room_type,
+                            'distance': distance
+                        })
+            hotel_data.append({
+                'hotel_id': hotel.pk,
+                'hotel_name': hotel.name,
+                'hotel_address': hotel.address,
+                'hotel_description': hotel.description,
+                'hotel_rating': hotel.rating,
+                'rooms': available_rooms
+            })
 
-                if not overlapping_reservations.exists():
-                    available_rooms.append({
-                        'room_number': room.room_number,
-                        'hotel': room.hotel.name,
-                        'address': room.hotel.address,
-                        'room_type': room.room_type,
-                        'distance': distance
-                    })
-
-        return Response(available_rooms)
+        return Response(hotel_data)
 
 
 
