@@ -1,0 +1,11 @@
+<div class="hotel-amenities">
+  <div class="hotel-amenities__grid">
+    <div class="hotel-amenities__item" *ngFor="let amenity of amenities">
+      <div
+        class="hotel-amenities__icon"
+        [innerHTML]="getAmenityIcon(amenity)"
+      ></div>
+      <div class="hotel-amenities__name">{{ amenity }}</div>
+    </div>
+  </div>
+</div>

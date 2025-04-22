@@ -75,6 +75,7 @@ export class BookingComponent implements OnInit {
     });
 
     this.loadHotels();
+    console.log(this.filteredHotels);
   }
 
   loadHotels(): void {
@@ -86,6 +87,7 @@ export class BookingComponent implements OnInit {
           rating: hotel.hotel_rating,
           name: hotel.hotel_name,
           averagePrice: this.calculateAveragePrice(hotel.rooms), // Добавляем среднюю цену
+          id: hotel.hotel_id,
         }));
 
         this.updateMaxPrice();
@@ -195,6 +197,6 @@ export class BookingComponent implements OnInit {
   }
 
   viewHotelDetails(hotelId: string): void {
-    this.router.navigate(["/hotels", hotelId]);
+    this.router.navigate(["/booking", hotelId]);
   }
 }

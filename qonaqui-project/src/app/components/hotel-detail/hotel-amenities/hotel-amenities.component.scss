@@ -1,0 +1,41 @@
+@import "../../../../mixin";
+
+$primary-color: #c49c74;
+$text-color: #252525;
+$light-text: #a1a7b0;
+
+.hotel-amenities {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    @include break(992px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include break(576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__icon {
+    color: $primary-color;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__name {
+    font-size: 14px;
+    color: $text-color;
+  }
+}

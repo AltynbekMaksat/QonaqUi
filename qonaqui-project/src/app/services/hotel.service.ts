@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ISearchParams } from "../shared/search-params";
+import { IHotel } from "../shared/hotel";
 
 @Injectable({
   providedIn: "root",
@@ -15,6 +16,12 @@ export class HotelService {
 
   getAllHotels(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
+  }
+
+  // Добавьте в существующий HotelService
+
+  getHotelById(id: string): Observable<IHotel> {
+    return this.http.get<IHotel>(`${this.apiUrl}${id}/`);
   }
 
   searchHotelsByCoords(

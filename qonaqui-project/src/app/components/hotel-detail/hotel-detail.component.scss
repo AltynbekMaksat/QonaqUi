@@ -1,0 +1,445 @@
+@import "../../../mixin";
+
+$primary-color: #c49c74;
+$secondary-color: #1d1d1d;
+$text-color: #252525;
+$light-text: #a1a7b0;
+$white: #ffffff;
+$border-color: #e0e0e0;
+$background-color: #f8f8f8;
+$shadow-color: rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+$border-radius: 12px;
+
+.hotel-detail {
+  font-family: "Ubuntu", sans-serif;
+
+  &__hero {
+    position: relative;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    color: $white;
+
+    @include break(768px) {
+      height: 300px;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0.7)
+    );
+    z-index: 1;
+  }
+
+  &__container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 40px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 15px;
+
+    @include break(768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+  }
+
+  &__title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+
+    @include break(768px) {
+      font-size: 28px;
+    }
+
+    @include break(576px) {
+      font-size: 24px;
+    }
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__rating-score {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-color;
+    color: $white;
+    font-weight: 700;
+    border-radius: 4px;
+    font-size: 18px;
+  }
+
+  &__rating-text {
+    font-size: 14px;
+  }
+
+  &__rating-label {
+    font-weight: 500;
+  }
+
+  &__reviews {
+    opacity: 0.8;
+    font-size: 12px;
+  }
+
+  &__location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+
+    svg {
+      color: $primary-color;
+    }
+  }
+
+  &__content {
+    background-color: $background-color;
+    padding: 40px 0;
+  }
+
+  &__main {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+
+    @include break(992px) {
+      flex-direction: column;
+    }
+  }
+
+  &__gallery-section {
+    flex: 1;
+  }
+
+  &__info-section {
+    flex: 1;
+  }
+
+  &__section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: $text-color;
+  }
+
+  &__description {
+    margin-bottom: 30px;
+    line-height: 1.6;
+    color: $text-color;
+  }
+
+  &__amenities-section {
+    margin-bottom: 30px;
+  }
+
+  &__rooms-section {
+    margin-bottom: 40px;
+  }
+
+  &__rooms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__no-rooms {
+    background-color: $white;
+    padding: 30px;
+    border-radius: $border-radius;
+    text-align: center;
+    color: $light-text;
+    box-shadow: 0 2px 10px $shadow-color;
+  }
+
+  &__map-section {
+    margin-bottom: 40px;
+  }
+
+  &__map {
+    height: 400px;
+    border-radius: $border-radius;
+    overflow: hidden;
+    box-shadow: 0 2px 10px $shadow-color;
+  }
+
+  &__map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__reviews-section {
+    margin-bottom: 40px;
+  }
+
+  &__reviews-summary {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    background-color: $white;
+    padding: 30px;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 10px $shadow-color;
+
+    @include break(768px) {
+      flex-direction: column;
+    }
+  }
+
+  &__reviews-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+  }
+
+  &__big-score {
+    font-size: 48px;
+    font-weight: 700;
+    color: $primary-color;
+  }
+
+  &__score-label {
+    font-size: 16px;
+    color: $text-color;
+  }
+
+  &__reviews-stats {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__stat-label {
+    width: 120px;
+    font-size: 14px;
+    color: $text-color;
+  }
+
+  &__stat-bar {
+    flex: 1;
+    height: 8px;
+    background-color: $border-color;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &__stat-fill {
+    height: 100%;
+    background-color: $primary-color;
+  }
+
+  &__stat-value {
+    width: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-color;
+    text-align: right;
+  }
+
+  &__reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__review {
+    background-color: $white;
+    padding: 20px;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 10px $shadow-color;
+  }
+
+  &__review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  &__review-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  &__review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $primary-color;
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  &__review-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__review-name {
+    font-weight: 500;
+    color: $text-color;
+  }
+
+  &__review-date {
+    font-size: 12px;
+    color: $light-text;
+  }
+
+  &__review-rating {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-color;
+    color: $white;
+    font-weight: 600;
+    border-radius: 4px;
+  }
+
+  &__review-content {
+    color: $text-color;
+    line-height: 1.6;
+  }
+
+  &__more-reviews {
+    background-color: transparent;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $transition;
+    align-self: center;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+}
+
+// Модальное окно бронирования
+.booking-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  &__content {
+    background-color: $white;
+    border-radius: $border-radius;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $light-text;
+    transition: $transition;
+
+    &:hover {
+      color: $text-color;
+    }
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: $text-color;
+  }
+}
+.hotel-detail {
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f6f6f6;
+  }
+
+  &__spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(196, 156, 116, 0.2);
+    border-radius: 50%;
+    border-top-color: #c49c74;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 20px;
+  }
+
+  &__loading-text {
+    font-size: 16px;
+    color: #252525;
+    font-weight: 500;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

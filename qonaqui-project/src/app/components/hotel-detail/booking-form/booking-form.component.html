@@ -1,0 +1,213 @@
+<form
+  [formGroup]="bookingForm"
+  (ngSubmit)="submitBooking()"
+  class="booking-form"
+>
+  <div class="booking-form__summary">
+    <div class="booking-form__hotel">
+      <h3 class="booking-form__hotel-name">{{ hotel?.name }}</h3>
+      <div class="booking-form__room-name">{{ room?.room_type }}</div>
+    </div>
+
+    <div class="booking-form__dates">
+      <div class="booking-form__date">
+        <div class="booking-form__date-label">Check-In</div>
+        <div class="booking-form__date-value">
+          {{ checkIn | date : "dd.MM.yyyy" }}
+        </div>
+      </div>
+
+      <div class="booking-form__date-separator">—</div>
+
+      <div class="booking-form__date">
+        <div class="booking-form__date-label">Check-out</div>
+        <div class="booking-form__date-value">
+          {{ checkOut | date : "dd.MM.yyyy" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-form__guests">
+      <div class="booking-form__guests-label">Guests</div>
+      <div class="booking-form__guests-value">
+        {{ guests }} {{ getGuestsText(guests) }}
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-form__price-details">
+    <div class="booking-form__price-row">
+      <div class="booking-form__price-label">
+        {{
+          room?.price_per_night | currency : "RUB" : "symbol-narrow" : "1.0-0"
+        }}
+        x {{ calculateNights() }} {{ getNightsText(calculateNights()) }}
+      </div>
+      <div class="booking-form__price-value">
+        {{
+          calculateRoomPrice() | currency : "RUB" : "symbol-narrow" : "1.0-0"
+        }}
+      </div>
+    </div>
+
+    <div class="booking-form__price-row">
+      <div class="booking-form__price-label">Service Fee</div>
+      <div class="booking-form__price-value">
+        {{
+          calculateServiceFee() | currency : "KAZ" : "symbol-narrow" : "1.0-0"
+        }}
+      </div>
+    </div>
+
+    <div class="booking-form__price-row booking-form__price-row--total">
+      <div class="booking-form__price-label">Total</div>
+      <div class="booking-form__price-value">
+        {{
+          calculateTotalPrice() | currency : "KAZ" : "symbol-narrow" : "1.0-0"
+        }}
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-form__guest-details">
+    <h3 class="booking-form__section-title">Guest information</h3>
+
+    <div class="booking-form__field">
+      <label class="booking-form__label">Имя</label>
+      <input
+        type="text"
+        class="booking-form__input"
+        formControlName="firstName"
+        placeholder="Введите ваше имя"
+      />
+      <div
+        *ngIf="f['firstName'].touched && f['firstName'].errors"
+        class="booking-form__error"
+      >
+        Пожалуйста, введите ваше имя
+      </div>
+    </div>
+
+    <div class="booking-form__field">
+      <label class="booking-form__label">Фамилия</label>
+      <input
+        type="text"
+        class="booking-form__input"
+        formControlName="lastName"
+        placeholder="Введите вашу фамилию"
+      />
+      <div
+        *ngIf="f['lastName'].touched && f['lastName'].errors"
+        class="booking-form__error"
+      >
+        Пожалуйста, введите вашу фамилию
+      </div>
+    </div>
+
+    <div class="booking-form__field">
+      <label class="booking-form__label">Email</label>
+      <input
+        type="email"
+        class="booking-form__input"
+        formControlName="email"
+        placeholder="Введите ваш email"
+      />
+      <div
+        *ngIf="f['email'].touched && f['email'].errors"
+        class="booking-form__error"
+      >
+        Пожалуйста, введите корректный email
+      </div>
+    </div>
+
+    <div class="booking-form__field">
+      <label class="booking-form__label">Телефон</label>
+      <input
+        type="tel"
+        class="booking-form__input"
+        formControlName="phone"
+        placeholder="Введите ваш телефон"
+      />
+      <div
+        *ngIf="f['phone'].touched && f['phone'].errors"
+        class="booking-form__error"
+      >
+        Пожалуйста, введите корректный номер телефона
+      </div>
+    </div>
+
+    <div class="booking-form__field">
+      <label class="booking-form__label">Особые пожелания</label>
+      <textarea
+        class="booking-form__textarea"
+        formControlName="specialRequests"
+        placeholder="Укажите ваши пожелания (необязательно)"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="booking-form__payment">
+    <h3 class="booking-form__section-title">Способ оплаты</h3>
+
+    <div class="booking-form__payment-options">
+      <label class="booking-form__payment-option">
+        <input type="radio" formControlName="paymentMethod" value="card" />
+        <span class="booking-form__payment-radio"></span>
+        <span class="booking-form__payment-label">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+            <line x1="1" y1="10" x2="23" y2="10"></line>
+          </svg>
+          Банковская карта
+        </span>
+      </label>
+
+      <label class="booking-form__payment-option">
+        <input type="radio" formControlName="paymentMethod" value="hotel" />
+        <span class="booking-form__payment-radio"></span>
+        <span class="booking-form__payment-label">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M17 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"
+            ></path>
+            <rect x="9" y="9" width="12" height="10" rx="2" ry="2"></rect>
+          </svg>
+          Оплата в отеле
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div class="booking-form__actions">
+    <button type="button" class="booking-form__cancel" (click)="onCancel()">
+      Отмена
+    </button>
+    <button
+      type="submit"
+      class="booking-form__submit"
+      [disabled]="bookingForm.invalid || isSubmitting"
+    >
+      {{ isSubmitting ? "Обработка..." : "Подтвердить бронирование" }}
+    </button>
+  </div>
+</form>

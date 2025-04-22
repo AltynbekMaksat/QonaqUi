@@ -1,0 +1,64 @@
+<div class="hotel-gallery">
+  <div class="hotel-gallery__main">
+    <img
+      [src]="currentImage"
+      alt="Фото отеля"
+      class="hotel-gallery__main-image"
+    />
+
+    <button
+      class="hotel-gallery__nav hotel-gallery__nav--prev"
+      (click)="prevImage()"
+      [disabled]="currentIndex === 0"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <button
+      class="hotel-gallery__nav hotel-gallery__nav--next"
+      (click)="nextImage()"
+      [disabled]="currentIndex === images.length - 1"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <div class="hotel-gallery__thumbnails">
+    <div
+      *ngFor="let image of images; let i = index"
+      class="hotel-gallery__thumbnail"
+      [class.hotel-gallery__thumbnail--active]="i === currentIndex"
+      (click)="setImage(i)"
+    >
+      <img
+        [src]="image"
+        alt="Миниатюра фото отеля"
+        class="hotel-gallery__thumbnail-image"
+      />
+    </div>
+  </div>
+</div>

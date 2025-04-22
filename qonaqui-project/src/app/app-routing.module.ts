@@ -3,6 +3,9 @@ import { RouterModule, Routes } from "@angular/router";
 import { MainComponent } from "./components/main/main.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { BookingComponent } from "./components/booking/booking.component";
+import { HotelDetailComponent } from "./components/hotel-detail/hotel-detail.component";
+import { AboutComponent } from "./components/about/about.component";
+import { SupportComponent } from "./components/support/support.component";
 
 const routes: Routes = [
   { path: "", component: MainComponent },
@@ -20,6 +23,12 @@ const routes: Routes = [
     path: "booking",
     component: BookingComponent,
   },
+  {
+    path: "booking/:id",
+    component: HotelDetailComponent,
+  },
+  { path: "about", component: AboutComponent },
+  { path: "support", component: SupportComponent },
 ];
 
 @NgModule({

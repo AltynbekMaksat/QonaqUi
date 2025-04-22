@@ -10,4 +10,5 @@ export interface IHotel {
   rooms: IRoom[];
   photo_url: string;
   badge?: string;
+  amenities: string[];
 }

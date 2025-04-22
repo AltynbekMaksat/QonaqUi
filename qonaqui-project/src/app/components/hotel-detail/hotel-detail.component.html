@@ -1,0 +1,170 @@
+<!-- Загрузка -->
+<div *ngIf="!hotel" class="hotel-detail__loading">
+  <div class="hotel-detail__spinner"></div>
+  <p class="hotel-detail__loading-text">Loading hotel details...</p>
+</div>
+<!-- 
+<div *ngIf="hotel; else noHotel">Данные есть: {{ hotel | json }}</div>
+<ng-template #noHotel> Данные не загружены или hotel === null </ng-template> -->
+
+<div *ngIf="hotel" class="hotel-detail">
+  <!-- Hero Section with hotel photo -->
+  <div
+    class="hotel-detail__hero"
+    [style.background-image]="
+      'url(' +
+      (hotel?.photo_url || '/assets/images/hotel-placeholder.jpg') +
+      ')'
+    "
+  >
+    <div class="hotel-detail__overlay"></div>
+    <div class="hotel-detail__container">
+      <div class="hotel-detail__header">
+        <h1 class="hotel-detail__title">{{ hotel?.name }}</h1>
+        <div class="hotel-detail__rating">
+          <div class="hotel-detail__rating-score">{{ hotel?.rating }}</div>
+          <div class="hotel-detail__rating-text">
+            <div class="hotel-detail__rating-label">
+              {{ getRatingLabel(hotel?.rating) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hotel-detail__location">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>{{ hotel?.address }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="hotel-detail__content">
+    <div class="hotel-detail__container">
+      <!-- Gallery and information -->
+      <div class="hotel-detail__main">
+        <div class="hotel-detail__gallery-section">
+          <h2 class="hotel-detail__section-title">Photos</h2>
+          <app-hotel-gallery
+            [images]="hotel?.photo_url ? [hotel!.photo_url] : []"
+          ></app-hotel-gallery>
+        </div>
+
+        <div class="hotel-detail__info-section">
+          <div class="hotel-detail__description">
+            <h2 class="hotel-detail__section-title">About the hotel</h2>
+            <p>{{ hotel?.description }}</p>
+          </div>
+
+          <div class="hotel-detail__amenities-section">
+            <h2 class="hotel-detail__section-title">Amenities</h2>
+            <app-hotel-amenities
+              [amenities]="hotel?.amenities ? hotel!.amenities : []"
+            ></app-hotel-amenities>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rooms -->
+      <div class="hotel-detail__rooms-section">
+        <h2 class="hotel-detail__section-title">Available Rooms</h2>
+
+        <div class="hotel-detail__rooms-list" *ngIf="hotel?.rooms?.length">
+          <app-room-card
+            *ngFor="let room of hotel?.rooms"
+            [room]="room"
+            [checkIn]="searchParams?.check_in || ''"
+            [checkOut]="searchParams?.check_out || ''"
+            [guests]="searchParams?.guests || 0"
+            (bookRoom)="openBookingForm(room)"
+          >
+          </app-room-card>
+        </div>
+
+        <div class="hotel-detail__no-rooms" *ngIf="!hotel?.rooms?.length">
+          <p>
+            Unfortunately, there are no rooms available for the selected dates.
+          </p>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="hotel-detail__map-section">
+        <h2 class="hotel-detail__section-title">Location</h2>
+        <div class="hotel-detail__map">
+          <!-- This will be the map (can use Google Maps or another service) -->
+          <img
+            src="/assets/images/map-placeholder.jpg"
+            alt="Hotel location map"
+            class="hotel-detail__map-image"
+          />
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="hotel-detail__reviews-section">
+        <h2 class="hotel-detail__section-title">Guest Reviews</h2>
+
+        <div class="hotel-detail__reviews-summary">
+          <div class="hotel-detail__reviews-score">
+            <div class="hotel-detail__big-score">{{ hotel?.rating }}</div>
+            <div class="hotel-detail__score-label">
+              {{ getRatingLabel(hotel?.rating) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Modal -->
+  <div
+    class="booking-modal"
+    *ngIf="showBookingForm"
+    (click)="closeBookingForm($event)"
+  >
+    <div class="booking-modal__content" (click)="$event.stopPropagation()">
+      <button class="booking-modal__close" (click)="closeBookingForm()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <h2 class="booking-modal__title">Book a Room</h2>
+
+      <app-booking-form
+        [hotel]="hotel"
+        [room]="selectedRoom"
+        [checkIn]="searchParams?.check_in || ''"
+        [checkOut]="searchParams?.check_out || ''"
+        [guests]="searchParams?.guests || 0"
+        (bookingComplete)="onBookingComplete($event)"
+        (cancel)="closeBookingForm()"
+      ></app-booking-form>
+    </div>
+  </div>
+</div>

@@ -25,6 +25,10 @@ export class HotelCardComponent {
   }
 
   onViewDetails(): void {
-    this.viewDetails.emit(this.hotel.id.toString());
+    if (this.hotel && this.hotel.id) {
+      this.viewDetails.emit(this.hotel.id.toString()); // Ensure hotel.id is used here
+    } else {
+      console.error("Hotel ID is missing for this hotel:", this.hotel);
+    }
   }
 }

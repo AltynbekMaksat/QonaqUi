@@ -1,0 +1,116 @@
+@import "../../../../mixin";
+
+$primary-color: #c49c74;
+$secondary-color: #1d1d1d;
+$text-color: #252525;
+$light-text: #a1a7b0;
+$white: #ffffff;
+$border-color: #e0e0e0;
+$transition: all 0.3s ease;
+$border-radius: 12px;
+
+.hotel-gallery {
+  &__main {
+    position: relative;
+    height: 400px;
+    border-radius: $border-radius;
+    overflow: hidden;
+    margin-bottom: 15px;
+
+    @include break(768px) {
+      height: 300px;
+    }
+
+    @include break(576px) {
+      height: 250px;
+    }
+  }
+
+  &__main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: $transition;
+  }
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba($white, 0.8);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: $transition;
+    color: $text-color;
+
+    &:hover {
+      background-color: $white;
+      color: $primary-color;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--prev {
+      left: 15px;
+    }
+
+    &--next {
+      right: 15px;
+    }
+  }
+
+  &__thumbnails {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+
+    &::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $border-color;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 10px;
+    }
+  }
+
+  &__thumbnail {
+    width: 80px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: $transition;
+
+    &--active {
+      border-color: $primary-color;
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  &__thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
