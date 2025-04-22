@@ -1,7 +1,8 @@
+import json
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-
+from django.db.models import JSONField
 
 class User(AbstractUser):
     ROLE_CHOICES = (
@@ -28,6 +29,39 @@ class Hotel(models.Model):
     photo_url = models.URLField(max_length=200, blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
+    AMENITY_CHOICES = [
+        'free_wifi',
+        'breakfast',
+        'pool',
+        'parking',
+        'air_conditioning',
+        'spa',
+        'fitness_center',
+        'restaurant',
+    ]
+    DEFAULT_AMENITIES = ['free_wifi', 'breakfast', 'parking']
+    amenities_json = models.TextField(default='[]', blank=True)
+    def save(self, *args, **kwargs):
+        # если amenities нет при первом сохранении, ставим дефолтные
+        try:
+            parsed = json.loads(self.amenities_json)
+        except ValueError:
+            parsed = []
+        if not self.pk and not parsed:
+            self.amenities_json = json.dumps(self.DEFAULT_AMENITIES)
+        super().save(*args, **kwargs)
+
+    @property
+    def amenities(self):
+        try:
+            return json.loads(self.amenities_json)
+        except ValueError:
+            return []
+
+    @amenities.setter
+    def amenities(self, value_list):
+        self.amenities_json = json.dumps(value_list)
+
     def __str__(self):
         return f"{self.name}, {self.rating}"
 

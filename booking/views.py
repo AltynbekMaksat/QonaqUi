@@ -127,9 +127,13 @@ class UserAPIView(APIView):
             return Response({'error': 'User not found'})
 
 
+# для комнаты
+class RoomListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+
+
 # для чайханы
-
-
 # гет и пост
 @api_view(['GET', 'POST'])
 def restaurant_list_create(request):
@@ -370,6 +374,7 @@ class SearchAvailableRoomsAPIView(APIView):
                         'hotel': room.hotel.name,
                         'address': room.hotel.address,
                         'room type': room.room_type,
+                        'photo_url': room.photo_url
                     })
             hotel_data.append({
                 'hotel_id': hotel.pk,
@@ -439,7 +444,8 @@ class SearchAvailableRoomsByCoordsAPIView(APIView):
                             'hotel': room.hotel.name,
                             'address': room.hotel.address,
                             'room_type': room.room_type,
-                            'distance': distance
+                            'distance': distance,
+                            'photo_url': room.photo_url
                         })
             hotel_data.append({
                 'hotel_id': hotel.pk,

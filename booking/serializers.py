@@ -13,9 +13,17 @@ class HotelSerializer(serializers.Serializer):
     photo_url = serializers.URLField(required=False)
     latitude = serializers.FloatField(required=True)
     longitude = serializers.FloatField(required=True)
-
+    amenities = serializers.ListField(
+        child=serializers.ChoiceField(choices=Hotel.AMENITY_CHOICES),
+        required=False
+    )
     def create(self, validated_data):
-        return Hotel.objects.create(**validated_data)
+        amenities = validated_data.pop('amenities', None)
+        hotel = Hotel.objects.create(**validated_data)
+        if amenities is not None:
+                hotel.amenities = amenities
+                hotel.save()
+        return hotel
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
@@ -25,8 +33,15 @@ class HotelSerializer(serializers.Serializer):
         instance.photo_url = validated_data.get('photo_url', instance.photo_url)
         instance.latitude = validated_data.get('latitude', instance.latitude)
         instance.longitude = validated_data.get('longitude', instance.longitude)
+        if 'amenities' in validated_data:
+            instance.amenities = validated_data['amenities']
         instance.save()
         return instance
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['amenities'] = instance.amenities
+        return data
 
 
 class UserSerializer(serializers.Serializer):
