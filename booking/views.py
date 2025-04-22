@@ -277,15 +277,26 @@ class SearchHotelsByLocationAPIView(APIView):
             return Response({'error': 'Location parameter is required'}, status=400)
 
         hotels = Hotel.objects.filter(address__icontains=location)
-
         hotel_data = []
 
         for hotel in hotels:
+            rooms = Room.objects.filter(hotel=hotel)
+            room_list = []
+
+            for room in rooms:
+                room_list.append({
+                    'room_number': room.room_number,
+                    'room_type': room.room_type,
+                    'price_per_night': float(room.price_per_night),
+                    'is_available': room.is_available
+                })
+
             hotel_data.append({
                 'hotel_name': hotel.name,
                 'hotel_address': hotel.address,
                 'hotel_description': hotel.description,
                 'hotel_rating': hotel.rating,
+                'rooms': room_list
             })
 
         return Response(hotel_data)
