@@ -18,6 +18,7 @@ import { HeroComponent } from "./components/main/hero/hero.component";
 import { HotelsSectionComponent } from './components/main/hotels-section/hotels-section.component';
 import { FeaturesComponent } from './components/main/features/features.component';
 import { PropertyComponent } from './components/main/property/property.component';
+import { SearchFormComponent } from './components/search-form/search-form.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { PropertyComponent } from './components/main/property/property.component
     HotelsSectionComponent,
     FeaturesComponent,
     PropertyComponent,
+    SearchFormComponent,
   ],
   imports: [
     BrowserModule,
