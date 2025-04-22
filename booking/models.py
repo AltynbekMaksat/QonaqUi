@@ -25,7 +25,8 @@ class Hotel(models.Model):
     address = models.TextField()
     description = models.TextField()
     rating = models.FloatField()
-
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     def __str__(self):
         return f"{self.name}, {self.rating}"
 

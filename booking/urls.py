@@ -40,6 +40,7 @@ urlpatterns = [
 
     # Room booking process
     path('search/', SearchAvailableRoomsAPIView.as_view()),
+    path('search-by-coords/', SearchAvailableRoomsByCoordsAPIView.as_view()),
     path('book-room/', BookRoomAPIView.as_view(), name='book-room'),
     path('approve-room/', ApproveRoomReservationAPIView.as_view(), name='approve-room'),
     path('cancel-room/', CancelRoomReservationAPIView.as_view(), name='cancel-room'),
