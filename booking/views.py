@@ -267,7 +267,7 @@ class ReservationRestAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = ReservationRest.objects.all()
     serializer_class = ReservationRestSerializer
 
-# поиск свободной комнаты по параметрам
+# поиск свободной комнаты и отелей  по параметрам
 
 class SearchAvailableRoomsAPIView(APIView):
     def get(self, request):
@@ -290,26 +290,43 @@ class SearchAvailableRoomsAPIView(APIView):
         except ValueError:
             return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
 
-        rooms = Room.objects.filter(hotel__address__icontains=location)
+        # Найти отели по адресу
+        hotels = Hotel.objects.filter(address__icontains=location)
 
+        # Отдельный список отелей
+        hotel_data = [
+            {
+                'hotel_name': hotel.name,
+                'hotel_address': hotel.address,
+                'hotel_description': hotel.description,
+                'hotel_rating': hotel.rating
+            }
+            for hotel in hotels
+        ]
+
+        # Доступные комнаты по найденным отелям
         available_rooms = []
+        rooms = Room.objects.filter(hotel__in=hotels)
 
         for room in rooms:
             overlapping_reservations = ReservationHotel.objects.filter(
                 room=room,
-                check_in_date__lt=check_out,
-                check_out_date__gt=check_in
+                check_in_date__lt=check_out_date,
+                check_out_date__gt=check_in_date
             )
-
             if not overlapping_reservations.exists():
                 available_rooms.append({
                     'room_number': room.room_number,
                     'hotel': room.hotel.name,
                     'address': room.hotel.address,
-                    'room type': room.room_type,
+                    'room_type': room.room_type
                 })
 
-        return Response(available_rooms)
+        return Response({
+            'hotels': hotel_data,
+            'available_rooms': available_rooms
+        })
+
 
 
 class SearchAvailableRoomsByCoordsAPIView(APIView):
@@ -340,31 +357,43 @@ class SearchAvailableRoomsByCoordsAPIView(APIView):
         except ValueError:
             return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
 
-        rooms = Room.objects.all()
-
+        all_rooms = Room.objects.select_related('hotel').all()
         available_rooms = []
+        nearby_hotels_set = set()
 
-        for room in rooms:
-            hotel_latitude = room.hotel.latitude
-            hotel_longitude = room.hotel.longitude
-            distance = geodesic((latitude, longitude), (hotel_latitude, hotel_longitude)).km
+        for room in all_rooms:
+            hotel = room.hotel
+            distance = geodesic((latitude, longitude), (hotel.latitude, hotel.longitude)).km
             if distance <= 50:
                 overlapping_reservations = ReservationHotel.objects.filter(
                     room=room,
                     check_in_date__lt=check_out_date,
                     check_out_date__gt=check_in_date
                 )
-
                 if not overlapping_reservations.exists():
                     available_rooms.append({
                         'room_number': room.room_number,
-                        'hotel': room.hotel.name,
-                        'address': room.hotel.address,
+                        'hotel': hotel.name,
+                        'address': hotel.address,
                         'room_type': room.room_type,
                         'distance': distance
                     })
+                    nearby_hotels_set.add(hotel)
 
-        return Response(available_rooms)
+        hotels_data = [
+            {
+                'hotel_name': hotel.name,
+                'hotel_address': hotel.address,
+                'hotel_description': hotel.description,
+                'hotel_rating': hotel.rating
+            }
+            for hotel in nearby_hotels_set
+        ]
+
+        return Response({
+            'hotels': hotels_data,
+            'available_rooms': available_rooms
+        })
 
 
 # --- Room booking, approving, & cancelling view ---

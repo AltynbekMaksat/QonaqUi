@@ -33,21 +33,27 @@ class Hotel(models.Model):
 
 
 class Room(models.Model):
-    SINGLE = 'Bomzh'
-    DOUBLE = 'Econom'
-    SUITE = 'Comfort'
-    DELUXE = 'Luxury'
+    Bomzh = 'Bomzh'
+    Econom = 'Econom'
+    Comfort = 'Comfort'
+    Luxury = 'Luxury'
 
     ROOM_TYPE_CHOICES = [
-        (SINGLE, 'bomzh'),
-        (DOUBLE, 'Econom'),
-        (SUITE, 'Comfort'),
-        (DELUXE, 'Luxury'),
+        (Bomzh, 'bomzh'),
+        (Econom, 'Econom'),
+        (Comfort, 'Comfort'),
+        (Luxury, 'Luxury'),
     ]
 
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_number = models.IntegerField()
-    room_type = models.CharField(max_length=100)
+    room_type = models.CharField(
+        max_length=100,
+        choices=ROOM_TYPE_CHOICES,
+        default=Econom
+
+
+    )
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     is_available = models.BooleanField(default=True)
 
