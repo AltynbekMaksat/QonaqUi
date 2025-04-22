@@ -12,4 +12,4 @@ QonaqUi — это платформа для бронирования отеле
 ## Технологии
 - Frontend: AngularJS
 - Backend: Python, Django
-- База данных: PostgreSQL 
+- База данных: SQLite3 
