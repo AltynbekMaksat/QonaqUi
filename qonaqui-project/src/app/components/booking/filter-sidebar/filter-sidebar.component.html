@@ -1,0 +1,114 @@
+<div class="filters">
+  <div class="filters__header">
+    <h3 class="filters__title">Filters</h3>
+    <button class="filters__reset" (click)="resetFilters()">Reset all</button>
+  </div>
+
+  <!-- Price Range -->
+  <div class="filters__section">
+    <h4 class="filters__section-title">Price range</h4>
+    <div class="filters__price-range">
+      <div class="filters__price-inputs">
+        <div class="filters__price-field">
+          <span class="filters__price-currency">$</span>
+          <input
+            type="number"
+            class="filters__price-input"
+            [(ngModel)]="filters.priceRange.min"
+            (change)="updateFilters()"
+            min="0"
+          />
+        </div>
+        <span class="filters__price-separator">-</span>
+        <div class="filters__price-field">
+          <span class="filters__price-currency">$</span>
+          <input
+            type="number"
+            class="filters__price-input"
+            [(ngModel)]="filters.priceRange.max"
+            (change)="updateFilters()"
+            min="0"
+          />
+        </div>
+      </div>
+      <div class="filters__price-slider">
+        <input
+          type="range"
+          class="filters__slider"
+          [(ngModel)]="filters.priceRange.min"
+          [max]="maxPrice"
+          (input)="updateFilters()"
+        />
+        <input
+          type="range"
+          class="filters__slider"
+          [(ngModel)]="filters.priceRange.max"
+          [max]="maxPrice"
+          (input)="updateFilters()"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Star Rating -->
+  <div class="filters__section">
+    <h4 class="filters__section-title">Star rating</h4>
+    <div class="filters__rating">
+      <button
+        *ngFor="let star of [5, 4, 3, 2, 1]"
+        class="filters__rating-btn"
+        [class.filters__rating-btn--active]="filters.rating === star"
+        (click)="setRating(star)"
+      >
+        {{ star }}+ <span class="filters__star">★</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Property Type -->
+  <div class="filters__section">
+    <h4 class="filters__section-title">Property type</h4>
+    <div class="filters__property-types">
+      <label class="filters__checkbox" *ngFor="let type of propertyTypes">
+        <input
+          type="checkbox"
+          [checked]="isPropertyTypeSelected(type)"
+          (change)="togglePropertyType(type)"
+        />
+        <span class="filters__checkbox-label">{{ type }}</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Amenities -->
+  <div class="filters__section">
+    <h4 class="filters__section-title">Amenities</h4>
+    <div class="filters__amenities">
+      <label class="filters__checkbox" *ngFor="let amenity of amenities">
+        <input
+          type="checkbox"
+          [checked]="isAmenitySelected(amenity)"
+          (change)="toggleAmenity(amenity)"
+        />
+        <span class="filters__checkbox-label">{{ amenity }}</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Guest Rating -->
+  <div class="filters__section">
+    <h4 class="filters__section-title">Guest rating</h4>
+    <div class="filters__guest-rating">
+      <button
+        *ngFor="let rating of guestRatings"
+        class="filters__guest-btn"
+        [class.filters__guest-btn--active]="
+          filters.guestRating === rating.value
+        "
+        (click)="setGuestRating(rating.value)"
+      >
+        {{ rating.label }}
+      </button>
+    </div>
+  </div>
+</div>

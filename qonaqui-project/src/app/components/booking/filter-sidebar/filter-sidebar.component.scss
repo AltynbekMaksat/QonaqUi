@@ -1,0 +1,243 @@
+@import "../../../../mixin";
+
+$primary-color: #c49c74;
+$secondary-color: #1d1d1d;
+$text-color: #252525;
+$light-text: #a1a7b0;
+$white: #ffffff;
+$border-color: #e0e0e0;
+$background-color: #f8f8f8;
+$transition: all 0.3s ease;
+$border-radius: 8px;
+
+.filters {
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__reset {
+    background: none;
+    border: none;
+    color: $primary-color;
+    font-size: 14px;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__section {
+    margin-bottom: 25px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 15px 0;
+  }
+
+  // Price Range
+  &__price-range {
+    margin-bottom: 10px;
+  }
+
+  &__price-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  &__price-field {
+    position: relative;
+    flex: 1;
+  }
+
+  &__price-currency {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $light-text;
+  }
+
+  &__price-input {
+    width: 100%;
+    padding: 8px 8px 8px 25px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+
+  &__price-separator {
+    color: $light-text;
+  }
+
+  &__price-slider {
+    position: relative;
+    height: 30px;
+  }
+
+  &__slider {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: $border-color;
+    outline: none;
+    -webkit-appearance: none;
+    pointer-events: none;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: $primary-color;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    &::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: $primary-color;
+      cursor: pointer;
+      pointer-events: auto;
+      border: none;
+    }
+  }
+
+  // Star Rating
+  &__rating {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &__rating-btn {
+    padding: 8px 12px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    background: $white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &--active {
+      background-color: $primary-color;
+      color: $white;
+      border-color: $primary-color;
+    }
+  }
+
+  &__star {
+    color: #ffc107;
+  }
+
+  // Property Types & Amenities
+  &__property-types,
+  &__amenities {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+      cursor: pointer;
+
+      &:checked + .filters__checkbox-label {
+        color: $primary-color;
+      }
+    }
+  }
+
+  &__checkbox-label {
+    font-size: 14px;
+    transition: $transition;
+  }
+
+  // Guest Rating
+  &__guest-rating {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &__guest-btn {
+    padding: 8px 12px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    background: $white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &--active {
+      background-color: $primary-color;
+      color: $white;
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Responsive adjustments
+@include break(992px) {
+  .filters {
+    &__property-types,
+    &__amenities {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@include break(576px) {
+  .filters {
+    &__property-types,
+    &__amenities {
+      grid-template-columns: 1fr;
+    }
+  }
+}

@@ -19,6 +19,9 @@ import { HotelsSectionComponent } from './components/main/hotels-section/hotels-
 import { FeaturesComponent } from './components/main/features/features.component';
 import { PropertyComponent } from './components/main/property/property.component';
 import { SearchFormComponent } from './components/search-form/search-form.component';
+import { BookingComponent } from './components/booking/booking.component';
+import { FilterSidebarComponent } from './components/booking/filter-sidebar/filter-sidebar.component';
+import { HotelCardComponent } from './components/booking/hotel-card/hotel-card.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { SearchFormComponent } from './components/search-form/search-form.compon
     FeaturesComponent,
     PropertyComponent,
     SearchFormComponent,
+    BookingComponent,
+    FilterSidebarComponent,
+    HotelCardComponent,
   ],
   imports: [
     BrowserModule,

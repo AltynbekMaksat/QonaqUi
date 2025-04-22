@@ -1,0 +1,97 @@
+<div class="booking-page">
+  <!-- Hero Section with Background Image -->
+  <div
+    class="booking-page__hero"
+    [style.background-image]="'url(' + backgroundImage + ')'"
+  >
+    <div class="booking-page__overlay"></div>
+    <div class="booking-page__container">
+      <h1 class="booking-page__title">Find your perfect stay</h1>
+
+      <!-- Using your existing search bar component -->
+      <app-search-form
+        [initialValues]="searchParams"
+        (search)="onSearch($event)"
+      >
+      </app-search-form>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div class="booking-page__content">
+    <div class="booking-page__container booking-page__results-container">
+      <!-- Filters Sidebar -->
+      <div class="booking-page__sidebar">
+        <app-filter-sidebar
+          [filters]="filters"
+          (filterChange)="onFilterChange($event)"
+        >
+        </app-filter-sidebar>
+      </div>
+
+      <!-- Hotel Results -->
+      <div class="booking-page__results">
+        <div class="booking-page__results-header">
+          <h2 class="booking-page__results-title">
+            {{ filteredHotels.length }} properties found
+            <span *ngIf="searchParams.location">
+              in {{ searchParams.location }}</span
+            >
+          </h2>
+          <div class="booking-page__sort">
+            <label for="sort-select">Sort by:</label>
+            <select
+              id="sort-select"
+              [(ngModel)]="sortOption"
+              (change)="sortHotels()"
+            >
+              <option value="recommended">Recommended</option>
+              <option value="price-low">Price (low to high)</option>
+              <option value="price-high">Price (high to low)</option>
+              <option value="rating">Rating (high to low)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Hotel Cards List -->
+        <div
+          class="booking-page__results-list"
+          *ngIf="filteredHotels.length > 0"
+        >
+          <app-hotel-card
+            *ngFor="let hotel of filteredHotels"
+            [hotel]="hotel"
+            (viewDetails)="viewHotelDetails($event)"
+          >
+          </app-hotel-card>
+        </div>
+
+        <!-- No Results Message -->
+        <div
+          class="booking-page__no-results"
+          *ngIf="filteredHotels.length === 0"
+        >
+          <div class="booking-page__no-results-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h3>No properties found</h3>
+          <p>Try adjusting your search criteria or filters</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="hotel-card">
+  <div class="hotel-card__image-container">
+    <img [src]="hotel.imageUrl" [alt]="hotel.name" class="hotel-card__image" />
+    <div class="hotel-card__badge" *ngIf="hotel.badge">{{ hotel.badge }}</div>
+  </div>
+
+  <div class="hotel-card__content">
+    <div class="hotel-card__info">
+      <h3 class="hotel-card__name">{{ hotel.name }}</h3>
+      <div class="hotel-card__location">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>{{ hotel.location }}</span>
+      </div>
+
+      <div class="hotel-card__amenities">
+        <span class="hotel-card__amenity">Free WiFi</span>
+        <span class="hotel-card__amenity">Breakfast included</span>
+        <span class="hotel-card__amenity">Free cancellation</span>
+      </div>
+    </div>
+
+    <div class="hotel-card__rating-price">
+      <div class="hotel-card__rating">
+        <div class="hotel-card__rating-score">{{ hotel.rating }}</div>
+        <div class="hotel-card__rating-text">
+          <div class="hotel-card__rating-label">
+            {{ getRatingLabel(hotel.rating) }}
+          </div>
+          <div class="hotel-card__reviews">{{ hotel.reviews }} reviews</div>
+        </div>
+      </div>
+
+      <div class="hotel-card__price-container">
+        <div class="hotel-card__price-label">Price per night</div>
+        <div class="hotel-card__price">${{ hotel.price }}</div>
+        <button class="hotel-card__button" (click)="onViewDetails()">
+          View Deal
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
