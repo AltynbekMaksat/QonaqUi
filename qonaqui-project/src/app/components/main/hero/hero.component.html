@@ -3,10 +3,11 @@
   <div class="hero__content">
     <h1 class="hero__title">Explore your place to stay</h1>
 
-    <!-- Search Form -->
-    <div class="search">
+    <!-- Reactive Search Form -->
+    <form [formGroup]="searchForm" (ngSubmit)="searchAccommodations()">
       <div class="search__container">
-        <div class="search__field search__field--location">
+        <!-- Location -->
+        <div class="search__field">
           <span class="search__icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -27,11 +28,15 @@
             type="text"
             placeholder="Where are you going?"
             class="search__input"
-            [(ngModel)]="searchLocation"
+            formControlName="location"
           />
+          <div *ngIf="f.location.touched && f.location.invalid" class="error">
+            Location is required and must be at least 2 characters.
+          </div>
         </div>
 
-        <div class="search__field search__field--date">
+        <!-- Check In -->
+        <div class="search__field">
           <span class="search__icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -51,14 +56,18 @@
             </svg>
           </span>
           <input
-            type="text"
+            type="date"
             placeholder="Check in"
             class="search__input"
-            [(ngModel)]="checkInDate"
+            formControlName="checkIn"
           />
+          <div *ngIf="f.checkIn.touched && f.checkIn.invalid" class="error">
+            Check-in date is required.
+          </div>
         </div>
 
-        <div class="search__field search__field--date">
+        <!-- Check Out -->
+        <div class="search__field">
           <span class="search__icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,14 +87,18 @@
             </svg>
           </span>
           <input
-            type="text"
+            type="date"
             placeholder="Check out"
             class="search__input"
-            [(ngModel)]="checkOutDate"
+            formControlName="checkOut"
           />
+          <div *ngIf="f.checkOut.touched && f.checkOut.invalid" class="error">
+            Check-out date is required.
+          </div>
         </div>
 
-        <div class="search__field search__field--guests">
+        <!-- Guests -->
+        <div class="search__field">
           <span class="search__icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -103,18 +116,25 @@
             </svg>
           </span>
           <input
-            type="text"
+            type="number"
             placeholder="Guests"
             class="search__input"
-            [(ngModel)]="guestsCount"
+            formControlName="guests"
           />
+          <div *ngIf="f.guests.touched && f.guests.invalid" class="error">
+            Enter a valid number of guests (at least 1).
+          </div>
         </div>
 
-        <button class="search__button" (click)="searchAccommodations()">
+        <button
+          type="submit"
+          class="search__button"
+          [disabled]="searchForm.invalid"
+        >
           <span>Search</span>
         </button>
       </div>
-    </div>
+    </form>
 
     <div class="hero__description">
       <p class="hero__text">
@@ -126,11 +146,4 @@
       </p>
     </div>
   </div>
-
-  <!-- Hero Pagination -->
-  <!-- <div class="hero__pagination">
-    <span class="hero__pagination-dot hero__pagination-dot--active"></span>
-    <span class="hero__pagination-dot"></span>
-    <span class="hero__pagination-dot"></span>
-  </div> -->
 </section>

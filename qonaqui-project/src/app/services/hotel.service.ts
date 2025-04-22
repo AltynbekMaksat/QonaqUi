@@ -1,16 +1,28 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { ISearchParams } from "../shared/search-params";
 
 @Injectable({
   providedIn: "root",
 })
 export class HotelService {
-  private apiUrl = "http://127.0.0.1:8000/booking/hotels/"; // Django API URL
+  private apiUrl = "http://127.0.0.1:8000/booking/hotels/";
+  private searchApiUrl = "http://127.0.0.1:8000/booking/search/";
 
   constructor(private http: HttpClient) {}
 
   getAllHotels(): Observable<any> {
-    return this.http.get<any>(this.apiUrl); // Получаем все отели без фильтрации
+    return this.http.get<any>(this.apiUrl);
+  }
+
+  searchHotels(params: ISearchParams): Observable<any> {
+    const httpParams = new HttpParams()
+      .set("location", params.location)
+      .set("check_in", params.check_in)
+      .set("check_out", params.check_out)
+      .set("guests", params.guests);
+
+    return this.http.get<any>(this.searchApiUrl, { params: httpParams });
   }
 }

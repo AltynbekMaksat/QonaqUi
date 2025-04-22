@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Output } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { HotelService } from "src/app/services/hotel.service";
+import { ISearchParams } from "src/app/shared/search-params";
 
 @Component({
   selector: "app-hero",
@@ -8,35 +15,61 @@ import { HotelService } from "src/app/services/hotel.service";
 })
 export class HeroComponent {
   @Output() search = new EventEmitter<any>();
-
   heroBackground = "/assets/images/hero-background.jpg";
-  searchLocation = ""; // location to search for in the address field
-  checkInDate = "";
-  checkOutDate = "";
-  guestsCount = "";
 
-  constructor(private hotelService: HotelService) {}
+  searchForm!: FormGroup<{
+    location: FormControl<string>;
+    checkIn: FormControl<string>;
+    checkOut: FormControl<string>;
+    guests: FormControl<string>;
+  }>;
+
+  constructor(private fb: FormBuilder, private hotelService: HotelService) {}
+
+  ngOnInit(): void {
+    this.searchForm = this.fb.group({
+      location: this.fb.control("", {
+        validators: [Validators.required, Validators.minLength(2)],
+        nonNullable: true,
+      }),
+      checkIn: this.fb.control("", {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      checkOut: this.fb.control("", {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      guests: this.fb.control("", {
+        validators: [Validators.required, Validators.pattern("^[1-9][0-9]*$")],
+        nonNullable: true,
+      }),
+    });
+  }
+
+  get f() {
+    return this.searchForm.controls;
+  }
 
   searchAccommodations(): void {
-    if (!this.searchLocation) {
-      alert("Please enter a destination");
+    if (this.searchForm.invalid) {
+      this.searchForm.markAllAsTouched();
       return;
     }
 
-    this.hotelService.getAllHotels().subscribe({
+    const formValues = this.searchForm.value;
+
+    const params: ISearchParams = {
+      location: this.searchForm.get("location")!.value,
+      check_in: this.searchForm.get("checkIn")!.value,
+      check_out: this.searchForm.get("checkOut")!.value,
+      guests: Number(this.searchForm.get("guests")!.value),
+    };
+
+    this.hotelService.searchHotels(params).subscribe({
       next: (response) => {
-        const allHotels = response.hotels || response; // зависит от структуры ответа
-
-        const filteredHotels = allHotels.filter((hotel: any) => {
-          const matchesLocation = hotel.address
-            ?.toLowerCase()
-            .includes(this.searchLocation.toLowerCase());
-
-          // Можно добавить фильтрацию по дате и количеству гостей здесь
-          return matchesLocation;
-        });
-
-        this.search.emit(filteredHotels);
+        const hotels = response.hotels || response;
+        this.search.emit(hotels);
       },
       error: (err) => {
         console.error("Error fetching hotels:", err);
