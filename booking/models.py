@@ -54,6 +54,7 @@ class Room(models.Model):
 
 
     )
+    photo_url = models.URLField(max_length=200, blank=True, null=True)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     is_available = models.BooleanField(default=True)
 
