@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { AuthService } from "src/app/services/auth.service";
 import { ProfileService } from "src/app/services/profile.service";
 import { IHotelReservation } from "src/app/shared/hotel-reservation";
@@ -16,7 +17,11 @@ export class ProfileComponent implements OnInit {
   restaurantReservations: IRestaurantReservation[] = [];
   showPasswordModal = false;
 
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadUserData();
@@ -69,5 +74,10 @@ export class ProfileComponent implements OnInit {
     this.profileService.cancelRestaurantReservation(id).subscribe(() => {
       this.loadRestaurantReservations();
     });
+  }
+
+  logout() {
+    this.authService.logout(); // очищаем токен
+    this.router.navigate(["/auth"]); // редиректим на логин
   }
 }

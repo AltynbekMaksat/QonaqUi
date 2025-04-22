@@ -23,6 +23,27 @@ export class AuthService {
       );
   }
 
+  logout(): void {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const headers = new HttpHeaders().set("Authorization", `Token ${token}`);
+
+      this.http
+        .post(`${this.apiUrl}/auth/token/logout/`, {}, { headers })
+        .subscribe({
+          next: () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+          },
+          error: () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+          },
+        });
+    }
+  }
+
   getUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/auth/users/`);
   }
