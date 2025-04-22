@@ -110,9 +110,15 @@ class UserAPIView(APIView):
             return Response({'error': 'User not found'})
 
 
+# для комнаты
+class RoomListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+
+
+
 
 # для чайханы
-
 # гет и пост
 @api_view(['GET', 'POST'])
 def restaurant_list_create(request):

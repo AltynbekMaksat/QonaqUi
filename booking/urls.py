@@ -9,11 +9,18 @@ urlpatterns = [
     path('user/', views.UserAPIView.as_view()),
     path('user/<int:pk>/', views.UserAPIView.as_view()),
 
+
+    # rooms
+
+    path('rooms/', RoomListCreateAPIView.as_view()),
+
+
     # Restaurant
     path('restaurants/', restaurant_list_create),
     path('restaurants/<int:pk>/', restaurant_update),
     path('restaurants/<int:pk>/delete/', restaurant_delete),
 
+    # tables
     path('tables/', table_list_create),
     path('tables/<int:pk>/', table_update),
     path('tables/<int:pk>/delete/', table_delete),
