@@ -21,6 +21,7 @@ from .services import (
     cancel_room_reservation,
     cancel_table_reservation,
 )
+from geopy.distance import geodesic
 
 class HotelAPIView(APIView):
     def get(self, request):
@@ -267,6 +268,7 @@ class ReservationRestAPIDestroy(generics.RetrieveDestroyAPIView):
     serializer_class = ReservationRestSerializer
 
 # поиск свободной комнаты по параметрам
+
 class SearchAvailableRoomsAPIView(APIView):
     def get(self, request):
         location = request.query_params.get('location')
@@ -306,6 +308,61 @@ class SearchAvailableRoomsAPIView(APIView):
                     'address': room.hotel.address,
                     'room type': room.room_type,
                 })
+
+        return Response(available_rooms)
+
+
+class SearchAvailableRoomsByCoordsAPIView(APIView):
+    def get(self, request):
+        latitude = request.query_params.get('latitude')
+        longitude = request.query_params.get('longitude')
+        check_in = request.query_params.get('check_in')
+        check_out = request.query_params.get('check_out')
+        guests = request.query_params.get('guests', 1)
+
+        if not all([latitude, longitude, check_in, check_out]):
+            return Response({'error': 'Missing required parameters'}, status=400)
+
+        try:
+            latitude = float(latitude)
+            longitude = float(longitude)
+        except ValueError:
+            return Response({'error': 'Latitude and longitude must be numbers'}, status=400)
+
+        try:
+            guests = int(guests)
+        except ValueError:
+            return Response({'error': 'Guests must be a number'}, status=400)
+
+        try:
+            check_in_date = datetime.strptime(check_in, '%Y-%m-%d')
+            check_out_date = datetime.strptime(check_out, '%Y-%m-%d')
+        except ValueError:
+            return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
+
+        rooms = Room.objects.all()
+
+        available_rooms = []
+
+        for room in rooms:
+            hotel_latitude = room.hotel.latitude
+            hotel_longitude = room.hotel.longitude
+            distance = geodesic((latitude, longitude), (hotel_latitude, hotel_longitude)).km
+            if distance <= 50:
+                overlapping_reservations = ReservationHotel.objects.filter(
+                    room=room,
+                    check_in_date__lt=check_out_date,
+                    check_out_date__gt=check_in_date
+                )
+
+                if not overlapping_reservations.exists():
+                    available_rooms.append({
+                        'room_number': room.room_number,
+                        'hotel': room.hotel.name,
+                        'address': room.hotel.address,
+                        'room_type': room.room_type,
+                        'distance': distance
+                    })
 
         return Response(available_rooms)
 
