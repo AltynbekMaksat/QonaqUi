@@ -10,6 +10,9 @@ class HotelSerializer(serializers.Serializer):
     address = serializers.CharField()
     description = serializers.CharField()
     rating = serializers.FloatField()
+    photo_url = serializers.URLField(required=False)
+    latitude = serializers.FloatField(required=True)
+    longitude = serializers.FloatField(required=True)
 
     def create(self, validated_data):
         return Hotel.objects.create(**validated_data)
@@ -17,9 +20,11 @@ class HotelSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.address = validated_data.get('address', instance.address)
-        instance.description = validated_data.get('description',
-                                                  instance.description)
+        instance.description = validated_data.get('description', instance.description)
         instance.rating = validated_data.get('rating', instance.rating)
+        instance.photo_url = validated_data.get('photo_url', instance.photo_url)
+        instance.latitude = validated_data.get('latitude', instance.latitude)
+        instance.longitude = validated_data.get('longitude', instance.longitude)
         instance.save()
         return instance
 
