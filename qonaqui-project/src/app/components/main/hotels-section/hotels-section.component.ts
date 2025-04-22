@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { HotelService } from "src/app/services/hotel.service";
+import { IHotel } from "src/app/shared/hotel";
 // import { AccommodationService } from "../../../../core/services/accommodation.service";
 //import { Hotel } from "../../../../core/models/accommodation.models";
 
@@ -8,20 +10,67 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./hotels-section.component.scss"],
 })
 export class HotelsSectionComponent implements OnInit {
-  hotels: any[] = [];
+  hotels: IHotel[] = [];
   hotelsTranslate = 0;
+  latitude: number | null = null;
+  longitude: number | null = null;
 
-  //constructor(private accommodationService: AccommodationService) {}
+  checkIn: string = "";
+  checkOut: string = "";
+
+  constructor(private hotelService: HotelService) {}
 
   ngOnInit(): void {
-    //   this.loadHotels();
+    this.setDynamicDates();
+    this.getUserLocation();
   }
 
-  // loadHotels(): void {
-  //   this.accommodationService.getHotels().subscribe((hotels: any[]) => {
-  //     this.hotels = hotels;
-  //   });
-  // }
+  setDynamicDates(): void {
+    const today = new Date();
+    const oneMonthLater = new Date();
+    oneMonthLater.setMonth(today.getMonth() + 1);
+
+    this.checkIn = today.toISOString().split("T")[0]; // формат YYYY-MM-DD
+    this.checkOut = oneMonthLater.toISOString().split("T")[0];
+  }
+
+  getUserLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          this.loadHotels();
+        },
+        (error) => {
+          console.error("Ошибка при получении местоположения", error);
+        }
+      );
+    } else {
+      console.error("Геолокация не поддерживается вашим браузером");
+    }
+  }
+
+  loadHotels(): void {
+    if (this.latitude && this.longitude) {
+      this.hotelService
+        .searchHotelsByCoords(
+          this.latitude,
+          this.longitude,
+          this.checkIn,
+          this.checkOut
+        )
+        .subscribe({
+          next: (res) => {
+            console.log("Отели по координатам:", res);
+            this.hotels = res.hotels ?? res; // зависит от структуры ответа
+          },
+          error: (err) => {
+            console.error("Ошибка при загрузке отелей", err);
+          },
+        });
+    }
+  }
 
   nextHotels(): void {
     const containerWidth =

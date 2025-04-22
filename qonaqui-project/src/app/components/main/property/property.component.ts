@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { HotelService } from "src/app/services/hotel.service";
 // import { AccommodationService } from "../../../../core/services/accommodation.service";
 // import { Property } from "../../../../core/models/accommodation.models";
 
@@ -8,34 +9,52 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./property.component.scss"],
 })
 export class PropertyComponent implements OnInit {
-  propertyTypes = ["Hotels", "Apartments", "Resorts", "Villas", "Cottages"];
-  selectedPropertyType = "Hotels";
-  properties: any[] = [];
-  filteredProperties: any[] = [];
+  roomTypes: string[] = ["Single", "Double", "Deluxe", "Suite"];
+  selectedRoomType = "Single";
+  rooms: any[] = []; // Заменили properties на rooms
+  filteredRooms: any[] = [];
   propertiesTranslate = 0;
 
-  // constructor(private accommodationService: AccommodationService) {}
-
   ngOnInit(): void {
-    this.loadProperties();
+    this.loadRooms();
   }
+  constructor(private hotelService: HotelService) {}
 
-  loadProperties(): void {
-    // this.accommodationService.getProperties().subscribe((properties) => {
+  loadRooms(): void {
+    // this.hotelService.getProperties().subscribe((properties) => {
     //   this.properties = properties;
     //   this.filterProperties();
     // });
+    this.rooms = [
+      {
+        name: "Deluxe Room",
+        type: "Deluxe",
+        imageUrl: "/assets/images/deluxe.jpg",
+      },
+      {
+        name: "Single Room",
+        type: "Single",
+        imageUrl: "/assets/images/single.jpg",
+      },
+      { name: "Suite", type: "Suite", imageUrl: "/assets/images/suite.jpg" },
+      {
+        name: "Double Room",
+        type: "Double",
+        imageUrl: "/assets/images/double.jpg",
+      },
+    ];
+    this.filterRooms();
   }
 
-  selectPropertyType(type: string): void {
-    this.selectedPropertyType = type;
-    this.filterProperties();
-    this.propertiesTranslate = 0; // Reset carousel position
+  selectRoomType(type: string): void {
+    this.selectedRoomType = type;
+    this.filterRooms();
+    this.propertiesTranslate = 0;
   }
 
-  filterProperties(): void {
-    this.filteredProperties = this.properties.filter(
-      (property) => property.type === this.selectedPropertyType
+  filterRooms(): void {
+    this.filteredRooms = this.rooms.filter(
+      (room) => room.type === this.selectedRoomType
     );
   }
 
@@ -43,7 +62,7 @@ export class PropertyComponent implements OnInit {
     const containerWidth =
       document.querySelector(".property-types__carousel .carousel__container")
         ?.clientWidth || 0;
-    const totalWidth = this.filteredProperties.length * 300; // Approximate card width with gap
+    const totalWidth = this.filteredRooms.length * 300;
 
     if (Math.abs(this.propertiesTranslate) < totalWidth - containerWidth) {
       this.propertiesTranslate -= containerWidth;

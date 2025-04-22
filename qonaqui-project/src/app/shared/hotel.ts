@@ -1,6 +1,8 @@
 export interface IHotel {
-  hotelName: string;
+  name: string;
   address: string;
   description: string;
   rating: number;
+  imageUrl?: string;
+  badge?: string;
 }
