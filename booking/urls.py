@@ -39,6 +39,7 @@ urlpatterns = [
     path('reservation-restaurants/delete/<int:pk>/', ReservationRestAPIDestroy.as_view()),
 
     # Room booking process
+    path('search/', SearchAvailableRoomsAPIView.as_view()),
     path('book-room/', BookRoomAPIView.as_view(), name='book-room'),
     path('approve-room/', ApproveRoomReservationAPIView.as_view(), name='approve-room'),
     path('cancel-room/', CancelRoomReservationAPIView.as_view(), name='cancel-room'),

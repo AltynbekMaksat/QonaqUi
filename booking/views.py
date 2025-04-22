@@ -1,11 +1,11 @@
+from datetime import datetime
 from django.forms import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-
-# Create your views here.
+from django.db.models import Sum, Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Hotel , User , Room
@@ -265,6 +265,50 @@ class ReservationRestAPIUpdate(generics.RetrieveUpdateAPIView):
 class ReservationRestAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = ReservationRest.objects.all()
     serializer_class = ReservationRestSerializer
+
+# поиск свободной комнаты по параметрам
+class SearchAvailableRoomsAPIView(APIView):
+    def get(self, request):
+        location = request.query_params.get('location')
+        check_in = request.query_params.get('check_in')
+        check_out = request.query_params.get('check_out')
+        guests = request.query_params.get('guests', 1)
+
+        if not all([location, check_in, check_out]):
+            return Response({'error': 'Missing required parameters'}, status=400)
+
+        try:
+            guests = int(guests)
+        except ValueError:
+            return Response({'error': 'Guests must be a number'}, status=400)
+
+        try:
+            check_in_date = datetime.strptime(check_in, '%Y-%m-%d')
+            check_out_date = datetime.strptime(check_out, '%Y-%m-%d')
+        except ValueError:
+            return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
+
+        rooms = Room.objects.filter(hotel__address__icontains=location)
+
+        available_rooms = []
+
+        for room in rooms:
+            overlapping_reservations = ReservationHotel.objects.filter(
+                room=room,
+                check_in_date__lt=check_out,
+                check_out_date__gt=check_in
+            )
+
+            if not overlapping_reservations.exists():
+                available_rooms.append({
+                    'room_number': room.room_number,
+                    'hotel': room.hotel.name,
+                    'address': room.hotel.address,
+                    'room type': room.room_type,
+                })
+
+        return Response(available_rooms)
+
 
 # --- Room booking, approving, & cancelling view ---
 class BookRoomAPIView(APIView):
