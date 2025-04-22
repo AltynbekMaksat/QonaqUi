@@ -6,6 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
+import { IFilters } from "src/app/shared/filters";
 
 @Component({
   selector: "app-filter-sidebar",
@@ -13,18 +14,17 @@ import {
   styleUrls: ["./filter-sidebar.component.scss"],
 })
 export class FilterSidebarComponent implements OnInit {
-  @Input() filters: any = {
-    priceRange: { min: 0, max: 500 },
+  @Input() filters: IFilters = {
+    priceRange: { min: 0, max: 0 },
     rating: 0,
     propertyType: [],
     amenities: [],
-    guestRating: 0,
   };
 
   @Output() filterChange = new EventEmitter<any>();
   @Input() maxPrice: number = 0;
 
-  propertyTypes = ["Hotel", "Apartment", "Resort", "Villa", "Cottage"];
+  propertyTypes = ["Bomzh", "Econom", "Comfort", "Luxury"];
   amenities = [
     "Free WiFi",
     "Breakfast",
@@ -34,12 +34,6 @@ export class FilterSidebarComponent implements OnInit {
     "Spa",
     "Fitness center",
     "Restaurant",
-  ];
-  guestRatings = [
-    { label: "Any", value: 0 },
-    { label: "Good 7+", value: 7 },
-    { label: "Very Good 8+", value: 8 },
-    { label: "Excellent 9+", value: 9 },
   ];
 
   constructor() {}
@@ -56,7 +50,11 @@ export class FilterSidebarComponent implements OnInit {
     if (this.filters.priceRange.max < this.maxPrice) {
       this.filters.priceRange.max = this.maxPrice;
     }
+    if (this.maxPrice > 0) {
+      this.filters.priceRange.max = this.maxPrice;
+    }
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["maxPrice"] && this.maxPrice > 0) {
       this.filters.priceRange.max = this.maxPrice;
@@ -78,7 +76,6 @@ export class FilterSidebarComponent implements OnInit {
       rating: 0,
       propertyType: [],
       amenities: [],
-      guestRating: 0,
     };
 
     this.filterChange.emit(this.filters);
@@ -86,11 +83,6 @@ export class FilterSidebarComponent implements OnInit {
 
   setRating(rating: number): void {
     this.filters.rating = this.filters.rating === rating ? 0 : rating;
-    this.updateFilters();
-  }
-
-  setGuestRating(rating: number): void {
-    this.filters.guestRating = this.filters.guestRating === rating ? 0 : rating;
     this.updateFilters();
   }
 

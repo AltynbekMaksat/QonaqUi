@@ -31,12 +31,13 @@
           />
         </div>
       </div>
-      <div class="filters__price-slider">
+      <!-- <div class="filters__price-slider">
         <input
           type="range"
           class="filters__slider"
           [(ngModel)]="filters.priceRange.min"
           [max]="maxPrice"
+          [min]="0"
           (input)="updateFilters()"
         />
         <input
@@ -44,9 +45,10 @@
           class="filters__slider"
           [(ngModel)]="filters.priceRange.max"
           [max]="maxPrice"
+          [min]="0"
           (input)="updateFilters()"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -92,23 +94,6 @@
         />
         <span class="filters__checkbox-label">{{ amenity }}</span>
       </label>
-    </div>
-  </div>
-
-  <!-- Guest Rating -->
-  <div class="filters__section">
-    <h4 class="filters__section-title">Guest rating</h4>
-    <div class="filters__guest-rating">
-      <button
-        *ngFor="let rating of guestRatings"
-        class="filters__guest-btn"
-        [class.filters__guest-btn--active]="
-          filters.guestRating === rating.value
-        "
-        (click)="setGuestRating(rating.value)"
-      >
-        {{ rating.label }}
-      </button>
     </div>
   </div>
 </div>

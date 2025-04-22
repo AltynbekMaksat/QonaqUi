@@ -195,31 +195,31 @@ $border-radius: 8px;
   }
 
   // Guest Rating
-  &__guest-rating {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+  //   &__guest-rating {
+  //     display: flex;
+  //     flex-wrap: wrap;
+  //     gap: 10px;
+  //   }
 
-  &__guest-btn {
-    padding: 8px 12px;
-    border: 1px solid $border-color;
-    border-radius: 4px;
-    background: $white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: $transition;
+  //   &__guest-btn {
+  //     padding: 8px 12px;
+  //     border: 1px solid $border-color;
+  //     border-radius: 4px;
+  //     background: $white;
+  //     font-size: 14px;
+  //     cursor: pointer;
+  //     transition: $transition;
 
-    &:hover {
-      border-color: $primary-color;
-    }
+  //     &:hover {
+  //       border-color: $primary-color;
+  //     }
 
-    &--active {
-      background-color: $primary-color;
-      color: $white;
-      border-color: $primary-color;
-    }
-  }
+  //     &--active {
+  //       background-color: $primary-color;
+  //       color: $white;
+  //       border-color: $primary-color;
+  //     }
+  //   }
 }
 
 // Responsive adjustments
