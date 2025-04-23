@@ -10,7 +10,7 @@ class HotelSerializer(serializers.Serializer):
     address = serializers.CharField()
     description = serializers.CharField()
     rating = serializers.FloatField()
-    photo_url = serializers.URLField(required=False)
+    photo_url = serializers.URLField()
     latitude = serializers.FloatField(required=True)
     longitude = serializers.FloatField(required=True)
     amenities = serializers.ListField(
@@ -37,7 +37,7 @@ class HotelSerializer(serializers.Serializer):
             instance.amenities = validated_data['amenities']
         instance.save()
         return instance
-    
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['amenities'] = instance.amenities

@@ -323,7 +323,8 @@ class SearchHotelsByLocationAPIView(APIView):
                 'hotel_address': hotel.address,
                 'hotel_description': hotel.description,
                 'hotel_rating': hotel.rating,
-                'rooms': room_list
+                'rooms': room_list,
+                'photo_url': room.photo_url,
             })
 
         return Response(hotel_data)
@@ -382,7 +383,8 @@ class SearchAvailableRoomsAPIView(APIView):
                 'hotel_address': hotel.address,
                 'hotel_description': hotel.description,
                 'hotel_rating': hotel.rating,
-                'rooms': available_rooms
+                'rooms': available_rooms,
+                'photo_url': hotel.photo_url,
             })
 
         return Response(hotel_data)
@@ -453,7 +455,8 @@ class SearchAvailableRoomsByCoordsAPIView(APIView):
                 'hotel_address': hotel.address,
                 'hotel_description': hotel.description,
                 'hotel_rating': hotel.rating,
-                'rooms': available_rooms
+                'rooms': available_rooms,
+                'photo_url': hotel.photo_url,
             })
 
         return Response(hotel_data)

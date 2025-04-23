@@ -26,7 +26,7 @@ class Hotel(models.Model):
     address = models.TextField()
     description = models.TextField()
     rating = models.FloatField()
-    photo_url = models.URLField(max_length=200, blank=True, null=True)
+    photo_url = models.URLField()
     latitude = models.FloatField()
     longitude = models.FloatField()
     AMENITY_CHOICES = [
